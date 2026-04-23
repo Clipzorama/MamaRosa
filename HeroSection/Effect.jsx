@@ -6,7 +6,7 @@ function IntroEffect() {
     <UnicornScene
       projectId="PbKDXKVbu1Nj1CAdGGIp"
       scale={1}
-      dpi={1.5}
+      dpi={0.7}
       sdkUrl="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@2.1.9/dist/unicornStudio.umd.js"
     />
   );
