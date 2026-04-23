@@ -1,15 +1,12 @@
-import Effect from "./Effect"
+import Effect from "./Effect";
 
 function Hero() {
-    return (
-        <>
-            <div className="min-h-screen w-full">
-                <Effect/>
-            </div>
-
-        </>
-    )
+  return (
+        <section className="relative h-screen w-full overflow-hidden bg-black">
+            <Effect />
+        </section>
+  );
 }
 
+export default Hero;
 
-export default Hero
