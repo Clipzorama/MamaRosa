@@ -1,22 +1,22 @@
+
+
+/* Cinzel -> Logo Text */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+/* Playfair Display -> For big headings */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+
+/* Poppins --> Nav, Buttons, Body */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@200..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-
-/* Logo / “Mamarosa” / gold elegant text:
-Use Cinzel 
-Best match: Cinzel for the logo, Cormorant Garamond for elegant headings.
-
-Big heading “Welkom bij”:
-Use Playfair Display or Cormorant Garamond.
-Best match: Playfair Display.
-
-Body / nav / buttons:
-Use Inter or Poppins.
-Best match: Inter. */
 
 @import "tailwindcss";
 
 
 @theme {
+
+    --font-cinzel: Cinzel, serif;
+    --font-playfair: Playfair Display, serif;
 
     --font-poppins: Poppins, sans-serif;
 
@@ -101,17 +101,9 @@ html {
 .hero-section {
   position: relative;
   width: 100%;
-  min-height: 100svh;
+  height: 100svh;
   overflow: hidden;
   background: black;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: rgba(0, 0, 0, 0.15);
-  pointer-events: none;
 }
 
 .hero-unicorn {
@@ -134,32 +126,28 @@ html {
 @media (min-width: 1025px) {
   .hero-unicorn {
     width: 100%;
+    height: 100%;
     left: 0;
-    transform: scale(1);
-    transform-origin: center center;
+    top: 0;
   }
 }
 
 /* Tablet */
 @media (min-width: 641px) and (max-width: 1024px) {
   .hero-unicorn {
-    width: 125%;
-    height: 110%;
-    left: -18%;
+    width: 100%;
+    height: 100%;
+    left: 0;
     top: 0;
-    transform: scale(1);
-    transform-origin: center bottom;
   }
 }
 
 /* Phone */
 @media (max-width: 640px) {
   .hero-unicorn {
-    width: 155%;
-    height: 112%;
-    left: -38%;
+    width: 100%;
+    height: 100%;
+    left: 0;
     top: 0;
-    transform: scale(1);
-    transform-origin: center bottom;
   }
 }

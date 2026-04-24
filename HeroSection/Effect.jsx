@@ -28,11 +28,15 @@ function Effect() {
   };
 
   return (
-    <UnicornScene
-      projectId={projectIds[device]}
-      scale={1}
-      dpi={0.8}
-    />
+      <div className="hero-unicorn opacity-0 animate-fade-in-delay-1">
+        <UnicornScene
+          key={device}
+          projectId={projectIds[device]}
+          scale={1}
+          dpi={device === "desktop" ? 0.8 : 0.65}
+        />
+      </div>
+    
   );
 }
 
