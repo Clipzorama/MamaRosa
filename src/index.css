@@ -1,6 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@200..800&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
+/* Logo / “Mamarosa” / gold elegant text:
+Use Cinzel 
+Best match: Cinzel for the logo, Cormorant Garamond for elegant headings.
+
+Big heading “Welkom bij”:
+Use Playfair Display or Cormorant Garamond.
+Best match: Playfair Display.
+
+Body / nav / buttons:
+Use Inter or Poppins.
+Best match: Inter. */
+
 @import "tailwindcss";
 
 
@@ -83,4 +95,71 @@ html {
             max-width: 1400px;
         }
     }
+
+}
+
+.hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  background: black;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.hero-unicorn {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hero-unicorn > div,
+.hero-unicorn canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .hero-unicorn {
+    width: 100%;
+    left: 0;
+    transform: scale(1);
+    transform-origin: center center;
+  }
+}
+
+/* Tablet */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .hero-unicorn {
+    width: 125%;
+    height: 110%;
+    left: -18%;
+    top: 0;
+    transform: scale(1);
+    transform-origin: center bottom;
+  }
+}
+
+/* Phone */
+@media (max-width: 640px) {
+  .hero-unicorn {
+    width: 155%;
+    height: 112%;
+    left: -38%;
+    top: 0;
+    transform: scale(1);
+    transform-origin: center bottom;
+  }
 }
