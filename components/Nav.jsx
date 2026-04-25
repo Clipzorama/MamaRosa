@@ -11,7 +11,7 @@ function Nav() {
 
   return (
     <header className="fixed left-0 top-0 z-[90] w-full">
-      <nav className="mx-auto grid max-w-[1800px] grid-cols-[1fr_auto] items-center px-5 py-6 sm:px-8 sm:py-7 md:px-10 md:py-8 lg:grid-cols-[360px_1fr_220px] lg:px-16 xl:px-24 2xl:px-28">
+      <nav className="mx-auto grid max-w-[1800px] grid-cols-[1fr_auto] items-center px-5 py-6 sm:px-8 sm:py-7 md:px-10 md:py-8 lg:grid-cols-[360px_1fr_220px] lg:px-16 xl:px-24 2xl:px-28 opacity-0 animate-fade-in-delay-2">
         {/* Logo */}
         <a href="#home" className="leading-none flex flex-col items-center">
           <div className="font-cinzel text-[22px] lg:text-[42px] font-semibold leading-none tracking-[0.18em] text-primary xl:text-[48px] 2xl:text-[52px]">
