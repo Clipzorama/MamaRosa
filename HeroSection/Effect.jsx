@@ -24,7 +24,7 @@ function Effect() {
   const projectIds = {
     desktop: "Sl6vFlXySafcYi4PmeSn",
     tablet: "xnRwB8iye1MeiSPw8wcA",
-    mobile: "4TkcqonJEPQgHScHutOe",
+    mobile: "iDEoy5BJZ5G26Gid9nfR",
   };
 
   return (
