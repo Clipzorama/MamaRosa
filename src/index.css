@@ -22,11 +22,8 @@
 
     --color-primary: hsl(var(--primary));
     --color-foreground: hsl(var(--foreground));
-    --color-button: hsl(var(--button));
-    --color-buttonh: hsl(var(--buttonh));
-    --color-background: hsl(var(--background));
-    --color-background2: hsl(var(--background2));
-
+    --color-icons: hsl(var(--icons));
+    
     --animate-fade-in: fade-in 0.7s ease-out forwards;
     --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards;
     --animate-fade-in-delay-2: fade-in 0.7s ease-out 0.4s forwards;
@@ -39,12 +36,10 @@
 
 @layer base {
     :root {
-        --primary: 225, 15%, 5%;
-        --button: 231, 16%, 52%;
-        --buttonh: 231, 16%, 48%;
-        --background: 45, 29%, 97%;
-        --background2: 45, 29%, 93%;
-        --foreground: 230, 19%, 20%;
+        --primary: 34, 69%, 62%;
+        --foreground: 34, 70%, 96%;
+        --icons: 34, 42%, 50%;
+        
 
         --animate-fade-in: fade-in 0.7s ease-out forwards;
         --animate-fade-in-delay-1: fade-in 0.7s ease-out 0.2s forwards;
@@ -113,6 +108,8 @@ html {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  pointer-events: none;
+
 }
 
 .hero-unicorn > div,
