@@ -1,6 +1,5 @@
 import Hero from "../HeroSection/Hero"
-import Nav from "../Nav"
-import HomeSection from "../HeroSection/HomeSection"
+import Nav from "../components/Nav"
 
 function App() {
 
@@ -8,8 +7,6 @@ function App() {
     <>
       <Nav />
       <Hero />
-      <HomeSection />
-
     </>
   )
 }
