@@ -1,6 +1,11 @@
-import { Menu, ShoppingCart } from "lucide-react";
+import { Menu, Earth } from "lucide-react";
+import { useState } from "react";
+
 
 function Nav() {
+  
+  const [isEnglish, setIsEnglish] = useState(false); // false = Dutch, true = English
+
   const navLinks = [
     { label: "Home", href: "#home" },
     { label: "Gerechten", href: "#gerechten" },
@@ -11,20 +16,20 @@ function Nav() {
 
   return (
     <header className="fixed left-0 top-0 z-[90] w-full">
-      <nav className="mx-auto grid max-w-[1800px] grid-cols-[1fr_auto] items-center px-5 py-6 sm:px-8 sm:py-7 md:px-10 md:py-8 lg:grid-cols-[360px_1fr_220px] lg:px-16 xl:px-24 2xl:px-28 opacity-0 animate-fade-in-delay-2">
+      <nav className="mx-auto grid max-w-[1700px] grid-cols-[1fr_auto] items-center px-5 py-6 sm:px-8 sm:py-7 md:px-10 md:py-8 lg:grid-cols-[360px_1fr_220px] lg:px-14 xl:px-16 2xl:px-20 opacity-0 animate-fade-in-delay-2">
         {/* Logo */}
-        <a href="#home" className="leading-none flex flex-col items-center">
-          <div className="font-cinzel text-[22px] lg:text-[42px] font-semibold leading-none tracking-[0.18em] text-primary xl:text-[48px] 2xl:text-[52px]">
+        <a href="#home" className="flex flex-col justify-self-start leading-none lg:items-center">
+          <div className="font-cinzel text-[22px] lg:text-[34px] font-semibold leading-none tracking-[0.18em] text-primary xl:text-[38px] 2xl:text-[42px]">
             MAMAROSA
           </div>
 
-          <p className="mt-2 text-center font-poppins hidden lg:flex text-[12px] font-semibold uppercase tracking-[0.22em] text-primary/85 xl:text-[13px]">
+          <p className="mt-2 text-center font-poppins hidden lg:flex text-[9px] font-semibold uppercase tracking-[0.22em] text-primary/85 xl:text-[10px]">
             Surinaamse Fusion Cuisine
           </p>
         </a>
 
         {/* Desktop nav */}
-        <div className="hidden font-poppins items-center justify-center gap-14 font-poppins text-[19px] font-semibold text-foreground/80 lg:flex xl:gap-16 2xl:gap-10">
+        <div className="hidden items-center justify-center gap-10 font-poppins text-[17px] font-normal text-foreground/80 xl:flex xl:gap-11 2xl:gap-12">
           {navLinks.map((link) => (
             <a
               key={link.label}
@@ -34,26 +39,45 @@ function Nav() {
               {link.label}
 
               {link.label === "Home" && (
-                <span className="absolute -bottom-5 left-0 h-[3px] w-full rounded-full bg-primary" />
+                <span className="absolute -bottom-3 left-0 h-[3px] w-full rounded-full bg-primary" />
               )}
             </a>
           ))}
         </div>
 
         {/* Desktop button */}
-        <a
-          href="#bestel"
-          className="hidden justify-self-end rounded-xl border-2 border-primary/70 px-8 py-5 font-poppins text-[21px] font-bold text-primary transition-colors duration-500 hover:bg-primary hover:text-black lg:flex items-center gap-4"
+        <button
+          onClick={() => setIsEnglish(!isEnglish)}
+          className="hidden justify-self-end rounded-xl border-2 border-primary/70 px-4 py-4 font-poppins text-[17px] font-bold text-primary transition-colors duration-500 hover:bg-primary/30 xl:flex items-center gap-4"
         >
-          Bestel Nu
-          <ShoppingCart size={26} strokeWidth={2.2} />
-        </a>
+          <span className="flex gap-2">
+            <span
+              className={`${
+                !isEnglish ? "underline text-primary" : "opacity-60"
+              }`}
+            >
+              NL
+            </span>
+
+            /
+
+            <span
+              className={`${
+                isEnglish ? "underline text-primary" : "opacity-60"
+              }`}
+            >
+              EN
+            </span>
+          </span>
+
+          <Earth size={26} strokeWidth={2.2} />
+        </button>
 
         {/* Mobile / tablet menu */}
         <button
           type="button"
-          aria-label="Open menu"
-          className="flex justify-self-end text-primary lg:hidden"
+          aria-label="See Nav"
+          className="flex justify-self-end text-primary xl:hidden"
         >
           <Menu size={36} strokeWidth={2.4} />
         </button>
