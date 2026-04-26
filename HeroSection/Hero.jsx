@@ -15,9 +15,9 @@ function Hero() {
 
       <div className="absolute inset-0 z-10" />
 
-      <div className="relative z-20 flex min-h-screen items-start px-6 pt-32 sm:px-10 sm:pt-40 lg:items-center lg:px-16 lg:pt-24 xl:px-20 2xl:px-24">
+      <div className="relative z-20 flex min-h-screen items-start px-6 pt-25 sm:px-10 sm:pt-40 lg:items-center lg:px-16 lg:pt-24 xl:px-20 2xl:px-24">
         <div className="mb-96 max-w-[360px] sm:max-w-[430px] lg:max-w-[620px] xl:max-w-[660px] xl:translate-y-4 2xl:translate-y-6 opacity-0 animate-fade-in-delay-2"> 
-          <div className="mt-5 lg:mt-20 mb-10 flex items-start gap-3 font-poppins font-medium uppercase leading-6 tracking-[0.12em] text-primary text-[15px] xl:text-[18px] xl:mb-9">
+          <div className="mt-5 lg:mt-20 mb-10 flex items-start gap-3 font-poppins font-medium uppercase leading-6 tracking-[0.12em] text-primary text-[15px] xl:mb-9">
             <Star size={16} className="mt-1 fill-primary text-primary" />
             <span>
               Authentiek. <br className="sm:hidden" />
@@ -26,7 +26,7 @@ function Hero() {
             </span>
           </div>
 
-          <h1 className="font-playfair text-[46px] font-medium leading-[0.55] text-foreground sm:text-6xl lg:text-[92px] xl:text-[98px] 2xl:text-[105px]">
+          <h1 className="font-playfair text-[46px] font-medium leading-[0.55] text-foreground sm:text-6xl lg:text-[92px] xl:text-[95px] 2xl:text-[98px]">
             Welkom bij{" "}
             <span className="inline-flex items-center text-primary">
               Mamarosa
@@ -47,7 +47,7 @@ function Hero() {
             </span>
           </h1>
 
-          + <p className="max-w-xl font-poppins text-sm leading-7 text-foreground/80 sm:text-base lg:text-[15px] lg:leading-8 xl:max-w-[500px] xl:text-[18px] xl:leading-9">
+          + <p className="max-w-xl font-poppins text-xs text-pretty leading-7 text-foreground/80 sm:text-base lg:text-[15px] lg:leading-8 xl:max-w-[500px] xl:text-[17px] xl:leading-9">
             Waar Surinaamse tradities en Caribische smaken samenkomen in een
             verrassende fusion ervaring. Met liefde bereid, voor jou geserveerd.
           </p>
@@ -77,7 +77,7 @@ function Hero() {
 
               <div className="flex flex-col gap-2">
                 <h3 className="text-4xl font-semibold text-primary xl:text-xl">20+</h3>
-                <p className="text-xs text-foreground/70">Jaar ervaring</p>
+                <p className="text-xs text-foreground/80">Jaar ervaring</p>
               </div>
             </div>
 
@@ -88,7 +88,7 @@ function Hero() {
 
               <div className="flex flex-col gap-2">
                 <h3 className="font-semibold text-primary xl:text-lg">1000+</h3>
-                <p className="text-xs text-foreground/70">Tevreden klanten</p>
+                <p className="text-xs text-foreground/80">Tevreden klanten</p>
               </div>
             </div>
 
@@ -99,7 +99,7 @@ function Hero() {
 
               <div className="flex flex-col gap-2">
                 <h3 className="text-4xl font-semibold text-primary xl:text-xl">Verse</h3>
-                <p className="text-xs text-foreground/70">Ingrediënten</p>
+                <p className="text-xs text-foreground/80">Ingrediënten</p>
               </div>
             </div>
           </div>
