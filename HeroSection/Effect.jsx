@@ -22,7 +22,7 @@ function Effect() {
   }, []);
 
   const projectIds = {
-    desktop: "Sl6vFlXySafcYi4PmeSn",
+    desktop: "lrYTiuLBVWmOfPRhCTBU",
     tablet: "xnRwB8iye1MeiSPw8wcA",
     mobile: "iDEoy5BJZ5G26Gid9nfR",
   };
