@@ -10,7 +10,6 @@ function Nav() {
     { label: "Home", href: "#home" },
     { label: "Menu", href: "#menu" },
     { label: "Over ons", href: "#about" },
-    { label: "Horeca", href: "#catering" },
     { label: "Contact", href: "#contact" },
   ];
 
@@ -33,27 +32,26 @@ function Nav() {
           </p>
         </a>
 
-        {/* Desktop divider */}
-        <div className="hidden h-16 w-px bg-primary/45 xl:block" />
-
         {/* Desktop nav */}
-        <div className="hidden items-center justify-center gap-10 font-poppins text-[14px] font-medium uppercase tracking-[0.04em] text-foreground/80 xl:flex 2xl:gap-14">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={() => handleNavClick(link.label)}
-              className={`relative whitespace-nowrap transition-colors duration-300 hover:text-primary ${
-                isActive === link.label ? "text-primary" : ""
-              }`}
-            >
-              {link.label}
+        <div className="hidden flex-1 items-center justify-center font-poppins text-[14px] font-medium uppercase tracking-[0.04em] text-foreground/80 xl:flex">
+          <div className="grid grid-cols-4 place-items-center gap-16 2xl:gap-20">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => handleNavClick(link.label)}
+                className={`relative whitespace-nowrap transition-colors duration-300 hover:text-primary ${
+                  isActive === link.label ? "text-primary" : ""
+                }`}
+              >
+                {link.label}
 
-              {isActive === link.label && (
-                <span className="absolute -bottom-4 left-0 h-[3px] w-8 rounded-full bg-primary shadow-[0_0_14px_rgba(218,162,80,0.7)]" />
-              )}
-            </a>
-          ))}
+                {isActive === link.label && (
+                  <span className="absolute -bottom-4 left-1/2 h-[3px] w-8 -translate-x-1/2 rounded-full bg-primary shadow-[0_0_14px_rgba(218,162,80,0.7)]" />
+                )}
+              </a>
+            ))}
+          </div>
         </div>
 
         {/* Desktop right side */}
