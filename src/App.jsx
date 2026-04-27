@@ -1,5 +1,6 @@
 import Hero from "../HeroSection/Hero"
 import Nav from "../components/Nav"
+import Menu from "../components/Menu"
 
 function App() {
 
@@ -7,6 +8,7 @@ function App() {
     <>
       <Nav />
       <Hero />
+      <Menu />
     </>
   )
 }
