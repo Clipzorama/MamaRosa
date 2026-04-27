@@ -6,7 +6,7 @@ function Effect() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 640) {
+      if (window.innerWidth <= 570) {
         setDevice("mobile");
       } else if (window.innerWidth <= 1024) {
         setDevice("tablet");
