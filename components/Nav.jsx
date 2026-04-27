@@ -1,11 +1,10 @@
-import { Menu, Earth } from "lucide-react";
+import { Menu, X, Earth } from "lucide-react";
 import { useState } from "react";
 
-
 function Nav() {
-  
-  const [isEnglish, setIsEnglish] = useState(false); 
-  const [isActive, setisActive] = useState("Home");
+  const [isEnglish, setIsEnglish] = useState(false);
+  const [isActive, setIsActive] = useState("Home");
+  const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
     { label: "Home", href: "#home" },
@@ -15,75 +14,144 @@ function Nav() {
     { label: "Contact", href: "#contact" },
   ];
 
+  const handleNavClick = (label) => {
+    setIsActive(label);
+    setIsOpen(false);
+  };
+
   return (
-    <header className="fixed left-0 top-0 z-[90] w-full">
-      <nav className="mt-3 mx-auto grid max-w-[1700px] grid-cols-[1fr_auto] items-center px-5 py-6 sm:px-8 sm:py-7 md:px-10 md:py-8 lg:grid-cols-[360px_1fr_220px] lg:px-14 xl:px-16 2xl:px-20 opacity-0 animate-fade-in-delay-2">
+    <header className="fixed left-0 top-0 z-[90] w-full px-4 pt-4 sm:px-6 lg:px-8">
+      <nav className="mx-auto flex max-w-[1920px] items-center justify-between rounded-[26px] border border-primary/55 bg-black/70 px-5 py-4 shadow-[0_0_40px_rgba(218,162,80,0.14)] backdrop-blur-xl opacity-0 animate-fade-in-delay-2 sm:px-7 lg:px-10 xl:px-14">
         {/* Logo */}
-        <a href="#home" className="flex flex-col justify-self-start leading-none lg:items-center">
-          <div className="font-cinzel text-[22px] lg:text-[34px] font-semibold leading-none tracking-[0.18em] text-primary xl:text-[38px] 2xl:text-[42px]">
+        <a href="#home" className="flex flex-col leading-none">
+          <div className="font-cinzel text-[22px] font-semibold leading-none tracking-[0.13em] text-primary sm:text-[28px] lg:text-[34px] xl:text-[38px]">
             MAMAROSA
           </div>
 
-          <p className="mt-2 text-center font-poppins hidden lg:flex text-[9px] font-semibold uppercase tracking-[0.22em] text-primary/85 xl:text-[12px]">
+          <p className="mt-2 hidden font-poppins text-[9px] text-center font-semibold uppercase tracking-[0.23em] text-primary/80 sm:block lg:text-[11px]">
             Surinaamse Fusion Cuisine
           </p>
         </a>
 
+        {/* Desktop divider */}
+        <div className="hidden h-16 w-px bg-primary/45 xl:block" />
+
         {/* Desktop nav */}
-        <div className="hidden items-center justify-center gap-10 font-poppins text-[13px] font-normal text-foreground/80 xl:flex xl:gap-11 2xl:gap-15">
+        <div className="hidden items-center justify-center gap-10 font-poppins text-[14px] font-medium uppercase tracking-[0.04em] text-foreground/80 xl:flex 2xl:gap-14">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              onClick={() => setisActive(link.label)}
-              className="relative whitespace-nowrap transition-colors duration-500 hover:text-primary"
+              onClick={() => handleNavClick(link.label)}
+              className={`relative whitespace-nowrap transition-colors duration-300 hover:text-primary ${
+                isActive === link.label ? "text-primary" : ""
+              }`}
             >
               {link.label}
 
               {isActive === link.label && (
-                <span className="absolute -bottom-3 left-0 h-[3px] w-full rounded-full bg-primary" />
+                <span className="absolute -bottom-4 left-0 h-[3px] w-8 rounded-full bg-primary shadow-[0_0_14px_rgba(218,162,80,0.7)]" />
               )}
             </a>
           ))}
         </div>
 
-        {/* Desktop button */}
-        <button
-          onClick={() => setIsEnglish(!isEnglish)}
-          className="hidden justify-self-end rounded-xl border-2 border-primary/70 px-3 py-3 font-poppins text-[17px] font-bold text-primary transition-colors duration-500 hover:bg-primary/30 xl:flex items-center gap-4"
-        >
-          <span className="flex gap-2">
-            <span
-              className={`${
-                !isEnglish ? "underline text-primary" : "opacity-60"
-              }`}
-            >
-              NL
-            </span>
+        {/* Desktop right side */}
+        <div className="hidden items-center gap-7 xl:flex">
+          <button
+            onClick={() => setIsEnglish(false)}
+            className={`font-poppins text-[15px] font-bold transition-colors ${
+              !isEnglish ? "text-primary" : "text-foreground/55 hover:text-primary"
+            }`}
+          >
+            NL
+          </button>
 
-            /
+          <span className="text-primary/50">/</span>
 
-            <span
-              className={`${
-                isEnglish ? "underline text-primary" : "opacity-60"
-              }`}
-            >
-              EN
-            </span>
-          </span>
+          <button
+            onClick={() => setIsEnglish(true)}
+            className={`font-poppins text-[15px] font-bold transition-colors ${
+              isEnglish ? "text-primary" : "text-foreground/55 hover:text-primary"
+            }`}
+          >
+            EN
+          </button>
 
-          <Earth size={26} strokeWidth={2.2} />
-        </button>
+          <div className="h-12 w-px bg-primary/35" />
 
-        {/* Mobile / tablet menu */}
+          <button
+            aria-label="Language"
+            className="grid h-14 w-14 place-items-center rounded-full border border-primary/60 text-primary transition duration-300 hover:bg-primary hover:text-black"
+          >
+            <Earth size={25} strokeWidth={2.1} />
+          </button>
+        </div>
+
+        {/* Mobile menu button */}
         <button
           type="button"
-          aria-label="See Nav"
-          className="flex justify-self-end text-primary xl:hidden"
+          aria-label="Toggle navigation menu"
+          onClick={() => setIsOpen(!isOpen)}
+          className="grid h-12 w-12 place-items-center rounded-full border border-primary/45 text-primary transition-colors hover:bg-primary hover:text-black xl:hidden"
         >
-          <Menu size={36} strokeWidth={2.4} />
+          {isOpen ? <X size={25} /> : <Menu size={27} />}
         </button>
       </nav>
+
+      {/* Mobile / tablet dropdown */}
+      <div
+        className={`mx-auto mt-3 max-w-[1920px] overflow-hidden rounded-[24px] border border-primary/35 bg-black/90 shadow-[0_0_35px_rgba(218,162,80,0.12)] backdrop-blur-xl transition-all duration-500 xl:hidden ${
+          isOpen
+            ? "max-h-[520px] opacity-100"
+            : "max-h-0 border-transparent opacity-0"
+        }`}
+      >
+        <div className="flex flex-col px-6 py-6">
+          <div className="flex flex-col gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => handleNavClick(link.label)}
+                className={`rounded-2xl px-4 py-4 font-poppins text-[15px] font-medium uppercase tracking-[0.08em] transition-colors ${
+                  isActive === link.label
+                    ? "bg-primary/10 text-primary"
+                    : "text-foreground/75 hover:bg-primary/10 hover:text-primary"
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="my-5 h-px w-full bg-primary/25" />
+
+          <div className="flex items-center justify-between rounded-2xl border border-primary/35 px-4 py-4">
+            <span className="font-poppins text-[13px] font-semibold uppercase tracking-[0.12em] text-foreground/70">
+              Language
+            </span>
+
+            <div className="flex items-center gap-4 font-poppins text-[15px] font-bold">
+              <button
+                onClick={() => setIsEnglish(false)}
+                className={!isEnglish ? "text-primary" : "text-foreground/45"}
+              >
+                NL
+              </button>
+
+              <span className="text-primary/40">/</span>
+
+              <button
+                onClick={() => setIsEnglish(true)}
+                className={isEnglish ? "text-primary" : "text-foreground/45"}
+              >
+                EN
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }
