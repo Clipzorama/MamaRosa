@@ -11,7 +11,7 @@ import {
   MoveRight,
   ChevronDown,
 } from "lucide-react";
-import pencil from "../src/assets/pencil.json";
+import food from "../src/assets/food.json";
 import { Player } from "@lottiefiles/react-lottie-player";
 
 function Menu() {
@@ -133,7 +133,7 @@ function Menu() {
   return (
     <section
       id="menu"
-      className="min-h-screen bg-background px-5 py-24 text-foreground sm:px-8 lg:px-10 xl:px-12"
+      className="min-h-screen bg-background px-5 py-30 text-foreground sm:px-8 lg:px-10 xl:px-12"
     >
       <div className="mx-auto grid max-w-[1600px] gap-8 lg:grid-cols-[270px_1fr] xl:grid-cols-[300px_1fr]">
         {/* Desktop sidebar */}
@@ -141,26 +141,12 @@ function Menu() {
           <div className="mt-14 flex flex-col gap-5">
             <div className="w-full opacity-90">
               <Player
-                src={pencil}
+                src={food}
                 loop
                 autoplay
-                className="h-[100px] w-full"
+                className="h-[200px] w-full"
               />
             </div>
-
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <a
-                  key={cat.id}
-                  href={`#${cat.id}`}
-                  className="flex items-center gap-4 rounded-xl px-4 py-4 font-poppins text-sm font-semibold text-primary transition-colors duration-500 hover:bg-primary hover:text-black"
-                >
-                  <Icon size={22} />
-                  {cat.label}
-                </a>
-              );
-            })}
           </div>
 
           <div className="mt-20 rounded-2xl border border-primary/40 bg-icons p-6">
@@ -256,6 +242,39 @@ function Menu() {
               );
             })}
           </div>
+
+        {/* Phone / tablet contact card */}
+        <aside className="mt-8 rounded-[2rem] border border-primary/60 bg-black/80 p-5 shadow-[0_0_35px_rgba(218,162,80,0.08)] lg:hidden">
+            <div className="rounded-[1.5rem] border border-primary/20 bg-background/70 px-4 py-6">
+                <Player
+                src={food}
+                loop
+                autoplay
+                className="mx-auto h-[150px] w-full max-w-[220px]"
+                />
+            </div>
+
+            <div className="mt-5 rounded-[1.5rem] border border-primary/40 bg-icons p-6 sm:p-8">
+                <Soup className="mb-5 text-black" size={38} />
+
+                <h3 className="font-playfair text-3xl leading-tight text-background sm:text-4xl">
+                Liever iets op maat?
+                </h3>
+
+                <p className="mt-4 font-poppins text-base leading-8 text-foreground/80">
+                Laat het ons weten! We denken graag met je mee voor speciale wensen of
+                dieetopties.
+                </p>
+
+                <a
+                href="#contact"
+                className="mt-8 inline-flex w-full items-center justify-center gap-3 rounded-2xl border border-primary/60 bg-white px-7 py-4 font-poppins text-sm font-bold text-black transition-colors duration-500 hover:bg-primary/70 sm:w-auto"
+                >
+                Neem contact op
+                <MoveRight size={22} />
+                </a>
+            </div>
+        </aside>
 
           {/* Desktop menu grid - untouched */}
           <div className="hidden gap-6 lg:grid xl:grid-cols-3">
