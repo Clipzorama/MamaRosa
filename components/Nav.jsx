@@ -1,5 +1,7 @@
-import { Menu, X, Earth } from "lucide-react";
+import { Menu, X, Languages } from "lucide-react";
 import { useState } from "react";
+
+
 
 function Nav() {
   const [isEnglish, setIsEnglish] = useState(false);
@@ -80,9 +82,10 @@ function Nav() {
 
           <button
             aria-label="Language"
+            onClick={() => setIsEnglish(!isEnglish)}
             className="grid h-14 w-14 place-items-center rounded-full border border-primary/60 text-primary transition duration-300 hover:bg-primary hover:text-black"
           >
-            <Earth size={25} strokeWidth={2.1} />
+            <Languages size={25} strokeWidth={2.1} />
           </button>
         </div>
 
