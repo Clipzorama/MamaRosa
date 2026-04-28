@@ -117,8 +117,8 @@ html {
 
 .hero-unicorn > div,
 .hero-unicorn canvas {
-  width: 100% !important;
-  height: 100% !important;
+  width: 100%;
+  height: 100%;
   display: block;
 }
 
@@ -154,7 +154,7 @@ html {
 
 /* Styling the entire scrollbar */
 ::-webkit-scrollbar {
-  width: 15px;
+  width: 10px;
 }
 
 /* Styling the scrollbar track */
