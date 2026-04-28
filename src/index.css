@@ -96,6 +96,12 @@ html {
 
 }
 
+@layer components {
+  .contact-input {
+    @apply w-full rounded-lg border border-primary/40 bg-black/40 px-5 py-4 font-poppins text-sm text-foreground outline-none transition placeholder:text-foreground/55 focus:border-primary focus:bg-black/60;
+  }
+}
+
 .hero-section {
   position: relative;
   width: 100%;
