@@ -76,16 +76,17 @@ export default function About() {
               Meer dan eten. Een ervaring.
             </div>
 
-            <h2 className="font-playfair text-[72px] leading-[0.9] text-foreground sm:text-[96px] md:text-[118px] lg:text-[112px] xl:text-[120px]">
+            <h2 className="font-playfair text-[72px] leading-[0.9] text-foreground sm:text-[96px] md:text-[130px] lg:text-[112px] xl:text-[120px]">
               Over <span className="text-primary">Ons</span>
             </h2>
 
-            <div className="mt-8 h-[3px] w-48 rounded-full bg-primary" />
+            <div className="mt-8 h-[3px] w-24 md:w-48 rounded-full bg-primary" />
 
-            <p className="mt-9 max-w-xl font-poppins text-[18px] leading-[2] text-foreground/80 sm:text-[14px] lg:text-[16px] xl:text-[18px]">
-              Mamarosa is ontstaan vanuit liefde voor Suriname, haar rijke
-              smaken en warme tradities. Wij brengen authentieke recepten samen
-              met een moderne twist, zodat elke hap voelt als thuis.
+            <p className="mt-9 max-w-xl font-poppins text-[18px] leading-[2] text-foreground/80 sm:text-[14px] md:text-[18px] lg:text-[16px] xl:text-[18px] text-balance">
+              Mama Rosa is ontstaan uit een duidelijke vraag naar iets nieuws en unieks in Almere. 
+              Er was geen plek die Surinaams/Caribisch eten aanbood met een fusion twist. 
+              Wij zijn trots de enigen in Almere te zijn die onder andere Jerk Chicken serveren. 
+              Daarom zijn wij begonnen: om een leegte te vullen en iets bijzonders te creëren voor de gemeenschap.
             </p>
 
             <p className="mt-8 font-playfair text-3xl italic text-primary sm:text-4xl">
@@ -93,11 +94,11 @@ export default function About() {
             </p>
 
             <div className="mt-14">
-              <h3 className="mb-5 font-poppins text-sm font-bold uppercase tracking-[0.18em] text-primary">
+              <h3 className="mb-5 font-poppins text-md font-bold uppercase tracking-[0.18em] text-primary">
                 Volg ons
               </h3>
 
-              <p className="mb-6 max-w-md font-poppins text-base leading-7 text-foreground/75">
+              <p className="mb-6 max-w-md font-poppins sm:text-[14px] md:text-[16px] lg:text-[16px] xl:text-[18px] leading-7 text-foreground/75">
                 Blijf op de hoogte van nieuwe gerechten, specials en acties!
               </p>
 
@@ -156,7 +157,7 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.12, duration: 0.6 }}
               whileHover={{ y: -8 }}
-              className="rounded-2xl border border-primary/35 bg-black/40 p-8 text-center backdrop-blur-sm"
+              className="rounded-2xl border border-primary/35 bg-black/40 p-8 text-center backdrop-blur-sm hover:bg-primary/10 transition-colors duration-500"
             >
               <div className="mx-auto mb-6 flex size-16 items-center justify-center rounded-full border border-primary/50 text-primary">
                 <Icon size={32} />
