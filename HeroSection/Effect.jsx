@@ -8,7 +8,7 @@ function Effect() {
     const handleResize = () => {
       if (window.innerWidth <= 570) {
         setDevice("mobile");
-      } else if (window.innerWidth <= 1024) {
+      } else if (window.innerWidth <= 1030) {
         setDevice("tablet");
       } else {
         setDevice("desktop");
