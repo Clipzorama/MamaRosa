@@ -1,17 +1,76 @@
-# React + Vite
+# 🍽️ Mamarosa – Premium Restaurant Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive restaurant website built for a client in the Netherlands.  
+Designed to showcase **Mamarosa's Surinamese Fusion Cuisine** with a premium visual identity, smooth user experience, and scalable production deployment.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✅ Project Overview
 
-## React Compiler
+This website was developed to provide a strong digital presence for the restaurant by combining:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Elegant branding
+- Responsive design
+- Bilingual language support (Dutch / English)
+- Smooth animations
+- Fast performance
+- Production-grade deployment pipeline
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🚀 Live Website
 
+🌐 https://www.mamarosa.nl
+
+---
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+- ⚛️ React.js
+- ⚡ Vite
+- 🎨 Tailwind CSS
+- 🧩 JSX Components
+- 📱 Responsive Mobile / Tablet / Desktop Design
+
+### UI / Motion
+
+- 🎬 Framer Motion
+- ✨ Smooth transitions & animated sections
+- 🌴 Custom premium restaurant visual styling
+
+### Deployment / DevOps
+
+- ▲ Vercel Hosting
+- 🔄 GitHub Actions CI/CD
+- 🌍 Custom Domain Integration
+- 🔒 HTTPS / SSL Enabled
+
+### Additional Integrations
+
+- 📩 EmailJS (contact/order inquiries)
+- 🌐 Multi-language Toggle System
+- 📈 SEO-ready structure
+
+---
+
+## 📂 Features
+
+✔ Premium Hero Section  
+✔ Responsive Navigation  
+✔ Language Switcher (NL / EN)  
+✔ Menu Showcase  
+✔ About Section  
+✔ Contact Section  
+✔ Fast Build Optimization  
+✔ Clean Component Architecture  
+✔ Auto Deploy on Push to Main Branch
+
+---
+
+## ⚙️ Development Setup
+
+```bash
+npm install
+npm run dev
