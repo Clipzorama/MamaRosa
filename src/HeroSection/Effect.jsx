@@ -8,7 +8,7 @@ function Effect() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 570) {
+      if (window.innerWidth <= 640) {
         setDevice("mobile");
       } else if (window.innerWidth <= 1030) {
         setDevice("tablet");
@@ -49,7 +49,7 @@ function Effect() {
             src={phoner}
             alt=""
             aria-hidden="true"
-            className="h-full w-full object-cover object-bottom"
+            className="h-full w-full object-cover object-[62%_bottom] scale-[1.02]"
           />
         </div>
       )}
