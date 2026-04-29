@@ -64,7 +64,7 @@ function Hero({ language }) {
               {currentText.titleHighlight}
               <svg
                 viewBox="0 0 240 190"
-                className="ml-2 h-[1.35em] w-[1.35em] translate-y-3 text-primary"
+                className="ml-2 h-[1.35em] w-[1.35em] translate-y-1 text-primary"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
