@@ -13,7 +13,7 @@ import {
   Sparkle,
 } from "lucide-react";
 
-import contacter from "../assets/contacter.webp";
+import contacter from "../adds/contacter.webp";
 
 const contactText = {
   nl: {
@@ -113,7 +113,7 @@ export default function Contact({ language }) {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-background px-6 py-24 text-foreground sm:px-8 md:px-10 lg:px-12 xl:px-16 lg:py-28"
+      className="relative overflow-hidden bg-background px-6 py-38 text-foreground sm:px-8 md:px-10 lg:px-12 xl:px-16 lg:py-38"
     >
       <div className="pointer-events-none absolute inset-0 z-0">
         <img

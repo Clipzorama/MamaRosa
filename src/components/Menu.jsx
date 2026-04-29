@@ -11,7 +11,7 @@ import {
   MoveRight,
   ChevronDown,
 } from "lucide-react";
-import food from "../assets/food.json";
+import food from "../adds/food.json";
 import { Player } from "@lottiefiles/react-lottie-player";
 
 function Menu({ language }) {

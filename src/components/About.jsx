@@ -4,7 +4,7 @@ import { Flame, Users, Star, Soup } from "lucide-react";
 
 import { FaInstagram, FaTiktok, FaSnapchat } from "react-icons/fa";
 
-import aboutPic from "../assets/aboutpic.webp";
+import aboutPic from "../adds/aboutpic.webp";
 
 const aboutText = {
   nl: {
