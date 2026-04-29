@@ -1,37 +1,82 @@
+// src/components/About.jsx
 import { motion } from "framer-motion";
-import {
-  Flame,
-  Users,
-  Star,
-  Soup
-} from "lucide-react";
+import { Flame, Users, Star, Soup } from "lucide-react";
 
 import { FaInstagram, FaTiktok, FaSnapchat } from "react-icons/fa";
 
 import aboutPic from "../assets/aboutpic.webp";
 
-const values = [
-  {
-    icon: Soup,
-    title: "Authentiek",
-    text: "Traditionele Surinaamse recepten, met respect voor onze roots.",
+const aboutText = {
+  nl: {
+    badge: "Meer dan eten. Een ervaring.",
+    titleStart: "Over",
+    titleHighlight: "Ons",
+    description:
+      "Mama Rosa is ontstaan uit een duidelijke vraag naar iets nieuws en unieks in Almere. Er was geen plek die Surinaams/Caribisch eten aanbood met een fusion twist. Wij zijn trots de enigen in Almere te zijn die onder andere Jerk Chicken serveren. Daarom zijn wij begonnen: om een leegte te vullen en iets bijzonders te creëren voor de gemeenschap.",
+    signature: "Met liefde, Mama Rosa",
+    followTitle: "Volg ons",
+    followText:
+      "Blijf op de hoogte van nieuwe gerechten, specials en acties!",
+    imageAlt: "Mamarosa Surinaamse kruiden en ingrediënten",
+    values: [
+      {
+        icon: Soup,
+        title: "Authentiek",
+        text: "Traditionele Surinaamse recepten, met respect voor onze roots.",
+      },
+      {
+        icon: Flame,
+        title: "Met passie",
+        text: "Elke maaltijd wordt bereid met liefde, aandacht en echte vakmanschap.",
+      },
+      {
+        icon: Users,
+        title: "Voor iedereen",
+        text: "Van familie diners tot speciale gelegenheden, wij heten je welkom.",
+      },
+      {
+        icon: Star,
+        title: "Kwaliteit",
+        text: "Alleen de beste ingrediënten voor de meest smaakvolle ervaring.",
+      },
+    ],
   },
-  {
-    icon: Flame,
-    title: "Met passie",
-    text: "Elke maaltijd wordt bereid met liefde, aandacht en echte vakmanschap.",
+
+  en: {
+    badge: "More than food. An experience.",
+    titleStart: "About",
+    titleHighlight: "Us",
+    description:
+      "Mama Rosa was created from a clear demand for something new and unique in Almere. There was no place offering Surinamese/Caribbean food with a fusion twist. We are proud to be the only ones in Almere serving dishes such as Jerk Chicken. That is why we started: to fill a gap and create something special for the community.",
+    signature: "With love, Mama Rosa",
+    followTitle: "Follow us",
+    followText:
+      "Stay updated on new dishes, specials and promotions!",
+    imageAlt: "Mamarosa Surinamese spices and ingredients",
+    values: [
+      {
+        icon: Soup,
+        title: "Authentic",
+        text: "Traditional Surinamese recipes, with respect for our roots.",
+      },
+      {
+        icon: Flame,
+        title: "With passion",
+        text: "Every meal is prepared with love, care and true craftsmanship.",
+      },
+      {
+        icon: Users,
+        title: "For everyone",
+        text: "From family dinners to special occasions, we welcome you.",
+      },
+      {
+        icon: Star,
+        title: "Quality",
+        text: "Only the best ingredients for the most flavorful experience.",
+      },
+    ],
   },
-  {
-    icon: Users,
-    title: "Voor iedereen",
-    text: "Van familie diners tot speciale gelegenheden, wij heten je welkom.",
-  },
-  {
-    icon: Star,
-    title: "Kwaliteit",
-    text: "Alleen de beste ingrediënten voor de meest smaakvolle ervaring.",
-  },
-];
+};
 
 const socials = [
   {
@@ -54,7 +99,9 @@ const socials = [
   },
 ];
 
-export default function About() {
+export default function About({ language }) {
+  const currentText = aboutText[language];
+
   return (
     <section
       id="about"
@@ -68,38 +115,36 @@ export default function About() {
           <motion.div
             initial={{ opacity: 0, y: 45 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: false, amount: 0.3 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <div className="mb-5 flex items-center gap-3 font-poppins text-xs font-bold uppercase tracking-[0.25em] text-primary sm:text-sm">
               <Star size={16} fill="currentColor" />
-              Meer dan eten. Een ervaring.
+              {currentText.badge}
             </div>
 
             <h2 className="font-playfair text-[72px] leading-[0.9] text-foreground sm:text-[96px] md:text-[130px] lg:text-[112px]">
-              Over <span className="text-primary">Ons</span>
+              {currentText.titleStart}{" "}
+              <span className="text-primary">{currentText.titleHighlight}</span>
             </h2>
 
             <div className="mt-8 h-[3px] w-24 md:w-48 rounded-full bg-primary" />
 
             <p className="mt-9 max-w-xl font-poppins text-[18px] leading-[2] text-foreground/80 sm:text-[14px] md:text-[18px] lg:text-[16px] text-balance">
-              Mama Rosa is ontstaan uit een duidelijke vraag naar iets nieuws en unieks in Almere. 
-              Er was geen plek die Surinaams/Caribisch eten aanbood met een fusion twist. 
-              Wij zijn trots de enigen in Almere te zijn die onder andere Jerk Chicken serveren. 
-              Daarom zijn wij begonnen: om een leegte te vullen en iets bijzonders te creëren voor de gemeenschap.
+              {currentText.description}
             </p>
 
             <p className="mt-8 font-playfair text-3xl italic text-primary sm:text-4xl">
-              Met liefde, Mama Rosa
+              {currentText.signature}
             </p>
 
             <div className="mt-14">
               <h3 className="mb-5 font-poppins text-md font-bold uppercase tracking-[0.18em] text-primary">
-                Volg ons
+                {currentText.followTitle}
               </h3>
 
               <p className="mb-6 max-w-md font-poppins sm:text-[14px] md:text-[16px] lg:text-[16px] xl:text-[18px] leading-7 text-foreground/75">
-                Blijf op de hoogte van nieuwe gerechten, specials en acties!
+                {currentText.followText}
               </p>
 
               <div className="flex flex-wrap gap-4">
@@ -124,7 +169,7 @@ export default function About() {
           <motion.div
             initial={{ opacity: 0, scale: 0.96, y: 60 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: false, amount: 0.25 }}
             transition={{ duration: 1, ease: "easeOut" }}
             className="relative"
           >
@@ -140,7 +185,7 @@ export default function About() {
             >
               <img
                 src={aboutPic}
-                alt="Mamarosa Surinaamse kruiden en ingrediënten"
+                alt={currentText.imageAlt}
                 className="h-[360px] w-full object-cover sm:h-[430px] md:h-[500px] lg:h-[600px] xl:h-[650px]"
               />
             </motion.div>
@@ -149,7 +194,7 @@ export default function About() {
 
         {/* Desktop cards */}
         <div className="mt-16 hidden grid-cols-4 gap-6 lg:grid">
-          {values.map(({ icon: Icon, title, text }, index) => (
+          {currentText.values.map(({ icon: Icon, title, text }, index) => (
             <motion.article
               key={title}
               initial={{ opacity: 0, y: 35 }}
@@ -176,12 +221,12 @@ export default function About() {
 
         {/* Mobile / tablet cards */}
         <div className="mt-10 grid gap-4 lg:hidden">
-          {values.map(({ icon: Icon, title, text }, index) => (
+          {currentText.values.map(({ icon: Icon, title, text }, index) => (
             <motion.article
               key={title}
               initial={{ opacity: 0, x: -25 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
               className="flex gap-5 rounded-2xl border border-primary/35 bg-black/40 p-5"
             >
