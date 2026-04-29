@@ -5,6 +5,7 @@ import Nav from "./components/Nav";
 import Menu from "./components/Menu";
 import About from "./components/About";
 import Contact from "./components/Contact";
+import Footer from "./components/Footer"
 
 function App() {
   const [language, setLanguage] = useState("nl");
@@ -16,6 +17,7 @@ function App() {
       <Menu language={language} />
       <About language={language} />
       <Contact language={language} />
+      <Footer language={language} />
     </>
   );
 }

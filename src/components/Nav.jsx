@@ -1,5 +1,5 @@
 import { Menu, X, Languages } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navText = {
   nl: {
@@ -40,6 +40,32 @@ function Nav({ language, setLanguage }) {
     setLanguage(selectedLanguage);
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const sectionIds = currentText.links.map((link) => link.id);
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 180;
+
+      let currentSection = "home";
+
+      sectionIds.forEach((id) => {
+        const section = document.getElementById(id);
+
+        if (section && section.offsetTop <= scrollPosition) {
+          currentSection = id;
+        }
+      });
+
+      setIsActive(currentSection);
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [currentText.links]);
 
   return (
     <header className="fixed left-0 top-0 z-[90] w-full px-4 pt-4 sm:px-6 lg:px-8">

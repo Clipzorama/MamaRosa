@@ -85,7 +85,7 @@ function Hero({ language }) {
 
           <div className="mt-8 flex flex-col gap-3 sm:w-fit md:w-fit lg:mt-9 lg:flex-row xl:mt-10 xl:gap-5">
             <a
-              href="#gerechten"
+              href="#menu"
               className="inline-flex w-fit items-center justify-center gap-2 self-start rounded-lg bg-primary px-5 py-3 font-poppins text-sm font-semibold text-black transition duration-300 hover:bg-[#ffd58a] sm:px-6 sm:py-3 md:px-6 md:py-3 lg:px-7 lg:py-4 xl:px-8 xl:py-4 xl:text-base"
             >
               <Utensils size={18} />
