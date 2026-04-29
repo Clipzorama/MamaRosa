@@ -106,7 +106,8 @@ export default function About({ language }) {
     <section
       id="about"
       className="relative overflow-hidden bg-background px-6 pt-36 pb-24 text-foreground sm:px-8 md:px-10 lg:px-12 xl:px-16"
-    >
+      >
+
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(205,151,79,0.16),transparent_35%),radial-gradient(circle_at_15%_85%,rgba(205,151,79,0.10),transparent_30%)]" />
 
       <div className="relative mx-auto max-w-[1500px]">
