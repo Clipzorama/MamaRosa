@@ -84,6 +84,16 @@ function Menu({ language }) {
       ],
       [language === "nl" ? "Rijst doks" : "Rice with duck", "€17,50"],
       [language === "nl" ? "Rijst lams" : "Rice with lamb", "€18,00"],
+      [language === "nl"
+        ? "Char-siu bake met bami/nasi/chow mein"
+        : "Char-siu bake with noodles/fried rice/chow mein",
+      "€18,50"
+      ],
+      [language === "nl"
+        ? "Ketjap kip met bami/nasi/chow mein"
+        : "Soy sauce chicken with noodles/fried rice/chow mein",
+      "€16,50"
+    ],
     ],
   },
   {
@@ -107,6 +117,11 @@ function Menu({ language }) {
     label: "Fusion",
     icon: Flame,
     items: [
+      [language === "nl"
+        ? "Jerk, BBQ kip met nasi/bami/chow mein/aardappelpuree/mac & cheese"
+        : "Jerk, BBQ chicken with fried rice/noodles/chow mein/mashed potatoes/mac & cheese",
+      "€21,50"
+    ],
       ["Jerk chicken", "€21,50"],
       [language === "nl" ? "Peperwater vis" : "Pepperwater fish", "€15,00"],
       ["Mac & Cheese", "€13,50"],

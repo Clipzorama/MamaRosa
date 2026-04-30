@@ -41,6 +41,8 @@ function Nav({ language, setLanguage }) {
     setIsOpen(false);
   };
 
+
+  // scroll detection on nav 
   useEffect(() => {
     const sectionIds = currentText.links.map((link) => link.id);
 
