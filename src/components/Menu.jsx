@@ -85,13 +85,13 @@ function Menu({ language }) {
       [language === "nl" ? "Rijst doks" : "Rice with duck", "€17,50"],
       [language === "nl" ? "Rijst lams" : "Rice with lamb", "€18,00"],
       [language === "nl"
-        ? "Char-siu bake met bami/nasi/chow mein"
-        : "Char-siu bake with noodles/fried rice/chow mein",
+        ? "Char-siu bake met nasi/chow mein"
+        : "Char-siu bake with fried rice/chow mein",
       "€18,50"
       ],
       [language === "nl"
-        ? "Ketjap kip met bami/nasi/chow mein"
-        : "Soy sauce chicken with noodles/fried rice/chow mein",
+        ? "Ketjap kip met nasi/chow mein"
+        : "Soy sauce chicken with fried rice/chow mein",
       "€16,50"
     ],
     ],
@@ -118,8 +118,8 @@ function Menu({ language }) {
     icon: Flame,
     items: [
       [language === "nl"
-        ? "Jerk, BBQ kip met nasi/bami/chow mein/aardappelpuree/mac & cheese"
-        : "Jerk, BBQ chicken with fried rice/noodles/chow mein/mashed potatoes/mac & cheese",
+        ? "Jerk, BBQ kip met nasi/chow mein/aardappelpuree/mac & cheese"
+        : "Jerk, BBQ chicken with fried rice/chow mein/mashed potatoes/mac & cheese",
       "€21,50"
     ],
       ["Jerk chicken", "€21,50"],
