@@ -24,18 +24,18 @@ function Menu({ language }) {
       titleStart: "Ons",
       titleHighlight: "Menu",
       description:
-        "Laat je verrassen door de rijke smaken van Suriname, met een moderne twist van Mamarosa.",
+        "Onze gerechten worden met uiterste zorg en perfectie, volledig vanaf de basis, bereid met pure, verse ingrediënten.",
       viewAll: "Alles bekijken",
     },
     en: {
       customTitle: "Prefer something custom?",
       customDescription:
-        "Let us know! We’re happy to help with special requests or dietary options.",
+        "Let us know! We're happy to help with special requests or dietary options.",
       contactButton: "Contact us",
       titleStart: "Our",
       titleHighlight: "Menu",
       description:
-        "Be surprised by the rich flavors of Suriname, with a modern Mamarosa twist.",
+        "Our dishes are carefully created  from scratch with perfection with clean fresh ingredients.",
       viewAll: "View all",
     },
   };
@@ -122,7 +122,6 @@ function Menu({ language }) {
         : "Jerk, BBQ chicken with fried rice/chow mein/mashed potatoes/mac & cheese",
       "€21,50"
     ],
-      ["Jerk chicken", "€21,50"],
       [language === "nl" ? "Peperwater vis" : "Pepperwater fish", "€15,00"],
       ["Mac & Cheese", "€13,50"],
       ["Taco fusion", "€12,50"],
