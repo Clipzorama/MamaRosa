@@ -82,8 +82,6 @@ function Menu({ language }) {
           : "Brown beans salted beef / smoked chicken",
         "€16,50",
       ],
-      [language === "nl" ? "Rijst doks" : "Rice with duck", "€17,50"],
-      [language === "nl" ? "Rijst lams" : "Rice with lamb", "€18,00"],
       [language === "nl"
         ? "Char-siu bake met nasi/chow mein"
         : "Char-siu bake with fried rice/chow mein",
@@ -103,11 +101,8 @@ function Menu({ language }) {
     items: [
       [language === "nl" ? "Rotirol vega" : "Vegetarian roti roll", "€12,00"],
       [language === "nl" ? "Rotirol kip" : "Chicken roti roll", "€14,00"],
-      [language === "nl" ? "Rotirol lams" : "Lamb roti roll", "€16,00"],
-      [language === "nl" ? "Lams / kousenband" : "Lamb / long beans", "€18,00"],
       [language === "nl" ? "Kip filet met kousenband" : "Chicken fillet with long beans", "€16,00"],
       [language === "nl" ? "Kip met bot / kousenband" : "Chicken on the bone / long beans", "€15,00"],
-      [language === "nl" ? "Doks / kousenband" : "Duck / long beans", "€17,50"],
       [language === "nl" ? "Vega / kousenband" : "Vegetarian / long beans", "€14,50"],
       [language === "nl" ? "Roti plaat" : "Roti flatbread", "€3,00"],
     ],

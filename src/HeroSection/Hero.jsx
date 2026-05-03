@@ -93,7 +93,7 @@ function Hero({ language }) {
             </a>
 
             <a
-              href="#contact"
+              href="https://www.bistroo.nl/almere/restaurants/mama-rosa?utm_source=mama-rosa&utm_medium=reserve_with_google&distribution=1&rwg_token=AFd1xnG_sjXWzWpGgFemwNeVVAs_pwr22U_oPRwAOMIlG_VgfTQaTA1RbzOOg7ADl7cIdg3jymDL_X9lrA7LbFX-IwwBa1xjBg%3D%3D"
               className="inline-flex w-fit items-center justify-center gap-2 self-start rounded-lg border border-icons/70 px-5 py-3 font-poppins text-sm font-semibold text-primary transition duration-300 hover:bg-primary hover:text-black sm:px-6 sm:py-3 md:px-6 md:py-3 lg:px-7 lg:py-4 xl:px-8 xl:py-4 xl:text-base"
             >
               <ShoppingBag size={18} />
