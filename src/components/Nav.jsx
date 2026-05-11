@@ -1,5 +1,7 @@
 import { Menu, X, Languages } from "lucide-react";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { easeOut } from "../lib/motion";
 
 const navText = {
   nl: {
@@ -28,6 +30,13 @@ const navText = {
 function Nav({ language, setLanguage }) {
   const [isActive, setIsActive] = useState("home");
   const [isOpen, setIsOpen] = useState(false);
+  const { scrollY } = useScroll();
+  const navPadding = useTransform(scrollY, [0, 140], [16, 10]);
+  const navBackground = useTransform(
+    scrollY,
+    [0, 140],
+    ["rgba(0,0,0,0.70)", "rgba(0,0,0,0.88)"]
+  );
 
   const currentText = navText[language];
 
@@ -70,8 +79,16 @@ function Nav({ language, setLanguage }) {
   }, [currentText.links]);
 
   return (
-    <header className="fixed left-0 top-0 z-[90] w-full px-4 pt-4 sm:px-6 lg:px-8">
-      <nav className="mx-auto flex max-w-[1920px] items-center justify-between rounded-[26px] border border-primary/55 bg-black/70 px-5 py-4 shadow-[0_0_40px_rgba(218,162,80,0.14)] backdrop-blur-xl opacity-0 animate-fade-in-delay-2 sm:px-7 lg:px-10 xl:px-14">
+    <motion.header
+      initial={{ opacity: 0, y: -18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.2, ease: easeOut }}
+      className="fixed left-0 top-0 z-[90] w-full px-4 pt-4 sm:px-6 lg:px-8"
+    >
+      <motion.nav
+        style={{ paddingTop: navPadding, paddingBottom: navPadding, backgroundColor: navBackground }}
+        className="mx-auto flex max-w-[1920px] items-center justify-between rounded-[26px] border border-primary/55 px-5 shadow-[0_0_40px_rgba(218,162,80,0.14)] backdrop-blur-xl sm:px-7 lg:px-10 xl:px-14"
+      >
         <a
           href="#home"
           onClick={() => handleNavClick("home")}
@@ -101,7 +118,11 @@ function Nav({ language, setLanguage }) {
                 {link.label}
 
                 {isActive === link.id && (
-                  <span className="absolute -bottom-4 left-1/2 h-[3px] w-8 -translate-x-1/2 rounded-full bg-primary shadow-[0_0_14px_rgba(218,162,80,0.7)]" />
+                  <motion.span
+                    layoutId="active-nav-pill"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                    className="absolute -bottom-4 left-1/2 h-[3px] w-8 -translate-x-1/2 rounded-full bg-primary shadow-[0_0_14px_rgba(218,162,80,0.7)]"
+                  />
                 )}
               </a>
             ))}
@@ -159,68 +180,85 @@ function Nav({ language, setLanguage }) {
         >
           {isOpen ? <X size={25} /> : <Menu size={27} />}
         </button>
-      </nav>
+      </motion.nav>
 
       {/* Mobile / tablet dropdown */}
-      <div
-        className={`mx-auto mt-3 max-w-[1920px] overflow-hidden rounded-[24px] border border-primary/35 bg-black/90 shadow-[0_0_35px_rgba(218,162,80,0.12)] backdrop-blur-xl transition-all duration-500 xl:hidden ${
-          isOpen
-            ? "max-h-[520px] opacity-100"
-            : "max-h-0 border-transparent opacity-0"
-        }`}
-      >
-        <div className="flex flex-col px-6 py-6">
-          <div className="flex flex-col gap-1">
-            {currentText.links.map((link) => (
-              <a
-                key={link.id}
-                href={link.href}
-                onClick={() => handleNavClick(link.id)}
-                className={`rounded-2xl px-4 py-4 font-poppins text-[15px] font-medium uppercase tracking-[0.08em] transition-colors ${
-                  isActive === link.id
-                    ? "bg-primary/10 text-primary"
-                    : "text-foreground/75 hover:bg-primary/10 hover:text-primary"
-                }`}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0, y: -8 }}
+            animate={{ opacity: 1, height: "auto", y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -8 }}
+            transition={{ duration: 0.45, ease: easeOut }}
+            className="mx-auto mt-3 max-w-[1920px] overflow-hidden rounded-[24px] border border-primary/35 bg-black/90 shadow-[0_0_35px_rgba(218,162,80,0.12)] backdrop-blur-xl xl:hidden"
+          >
+            <div className="flex flex-col px-6 py-6">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.06 } },
+                }}
+                className="flex flex-col gap-1"
               >
-                {link.label}
-              </a>
-            ))}
-          </div>
+                {currentText.links.map((link) => (
+                  <motion.a
+                    key={link.id}
+                    href={link.href}
+                    onClick={() => handleNavClick(link.id)}
+                    variants={{
+                      hidden: { opacity: 0, x: -12 },
+                      visible: { opacity: 1, x: 0 },
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`rounded-2xl px-4 py-4 font-poppins text-[15px] font-medium uppercase tracking-[0.08em] transition-colors ${
+                      isActive === link.id
+                        ? "bg-primary/10 text-primary"
+                        : "text-foreground/75 hover:bg-primary/10 hover:text-primary"
+                    }`}
+                  >
+                    {link.label}
+                  </motion.a>
+                ))}
+              </motion.div>
 
-          <div className="my-5 h-px w-full bg-primary/25" />
+              <div className="my-5 h-px w-full bg-primary/25" />
 
-          <div className="flex items-center justify-between rounded-2xl border border-primary/35 px-4 py-4">
-            <span className="font-poppins text-[13px] font-semibold uppercase tracking-[0.12em] text-foreground/70">
-              {currentText.languageLabel}
-            </span>
+              <div className="flex items-center justify-between rounded-2xl border border-primary/35 px-4 py-4">
+                <span className="font-poppins text-[13px] font-semibold uppercase tracking-[0.12em] text-foreground/70">
+                  {currentText.languageLabel}
+                </span>
 
-            <div className="flex items-center gap-4 font-poppins text-[15px] font-bold">
-              <button
-                type="button"
-                onClick={() => handleLanguageChange("nl")}
-                className={
-                  language === "nl" ? "text-primary" : "text-foreground/45"
-                }
-              >
-                NL
-              </button>
+                <div className="flex items-center gap-4 font-poppins text-[15px] font-bold">
+                  <button
+                    type="button"
+                    onClick={() => handleLanguageChange("nl")}
+                    className={
+                      language === "nl" ? "text-primary" : "text-foreground/45"
+                    }
+                  >
+                    NL
+                  </button>
 
-              <span className="text-primary/40">/</span>
+                  <span className="text-primary/40">/</span>
 
-              <button
-                type="button"
-                onClick={() => handleLanguageChange("en")}
-                className={
-                  language === "en" ? "text-primary" : "text-foreground/45"
-                }
-              >
-                EN
-              </button>
+                  <button
+                    type="button"
+                    onClick={() => handleLanguageChange("en")}
+                    className={
+                      language === "en" ? "text-primary" : "text-foreground/45"
+                    }
+                  >
+                    EN
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </header>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }
 
