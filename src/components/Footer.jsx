@@ -1,4 +1,6 @@
 import { Heart, MapPin, Phone, Mail, ArrowUp } from "lucide-react";
+import { motion } from "framer-motion";
+import { fadeUp, staggerContainer, viewport } from "../lib/motion";
 
 const footerText = {
   nl: {
@@ -35,9 +37,15 @@ export default function Footer({ language }) {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(205,151,79,0.14),transparent_35%)]" />
 
       <div className="relative mx-auto max-w-[1350px]">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1fr] lg:items-start">
-          <div>
-            <a href="#home" className="inline-block">
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+          className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1fr] lg:items-start"
+        >
+          <motion.div variants={fadeUp}>
+            <motion.a href="#home" whileHover={{ y: -3 }} className="inline-block">
               <h2 className="font-cinzel text-4xl font-semibold tracking-[0.18em] text-primary sm:text-5xl">
                 MAMAROSA
               </h2>
@@ -45,7 +53,7 @@ export default function Footer({ language }) {
               <p className="mt-2 font-poppins text-[11px] font-bold uppercase tracking-[0.35em] text-primary/90">
                 Surinamese Fusion Cuisine
               </p>
-            </a>
+            </motion.a>
 
             <p className="mt-6 max-w-md font-poppins text-sm leading-7 text-foreground/75 sm:text-base">
               {currentText.tagline}
@@ -55,9 +63,9 @@ export default function Footer({ language }) {
               <span>Mama Rosa</span>
               <Heart size={22} />
             </div>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={fadeUp}>
             <h3 className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-primary">
               {currentText.navTitle}
             </h3>
@@ -76,9 +84,9 @@ export default function Footer({ language }) {
                 {currentText.contact}
               </a>
             </nav>
-          </div>
+          </motion.div>
 
-          <div>
+          <motion.div variants={fadeUp}>
             <h3 className="font-poppins text-sm font-bold uppercase tracking-[0.2em] text-primary">
               {currentText.contactTitle}
             </h3>
@@ -109,8 +117,8 @@ export default function Footer({ language }) {
                 <span>info@mamarosa.nl</span>
               </a>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         <div className="mt-10 h-px w-full bg-primary/20" />
 
@@ -124,13 +132,15 @@ export default function Footer({ language }) {
             <span className="font-bold text-primary">Clipzorama</span>
           </p>
 
-          <a
+          <motion.a
             href="#home"
+            whileHover={{ y: -3 }}
+            whileTap={{ scale: 0.96 }}
             className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/40 px-4 py-2 font-bold text-primary transition hover:bg-primary hover:text-black"
           >
             {currentText.backTop}
             <ArrowUp size={16} />
-          </a>
+          </motion.a>
         </div>
       </div>
     </footer>

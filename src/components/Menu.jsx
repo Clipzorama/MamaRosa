@@ -1,5 +1,6 @@
 // src/components/Menu.jsx
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Star,
   Soup,
@@ -13,6 +14,7 @@ import {
 } from "lucide-react";
 import food from "../adds/Food.json";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { easeOut, fadeScale, fadeUp, staggerContainer, viewport } from "../lib/motion";
 
 function Menu({ language }) {
   const menuText = {
@@ -184,12 +186,21 @@ function Menu({ language }) {
       <div className="mx-auto grid max-w-[1600px] gap-8 lg:grid-cols-[270px_1fr] xl:grid-cols-[300px_1fr]">
         
         {/* Sidebar */}
-      <aside className="sticky top-40 hidden self-start rounded-3xl border border-primary/95 bg-background/80 px-4 pb-4 lg:flex lg:flex-col lg:h-fit">
+      <motion.aside
+        initial={{ opacity: 0, x: -26 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={viewport}
+        transition={{ duration: 0.75, ease: easeOut }}
+        className="sticky top-40 hidden self-start rounded-3xl border border-primary/95 bg-background/80 px-4 pb-4 lg:flex lg:flex-col lg:h-fit"
+      >
         <div className="mt-14 flex flex-col gap-5">
           <Player src={food} loop autoplay className="h-[200px] w-full" />
         </div>
 
-        <div className="mt-8 rounded-2xl border border-primary/40 bg-icons p-6">
+        <motion.div
+          whileHover={{ y: -5, boxShadow: "0 24px 70px rgba(218,162,80,0.16)" }}
+          className="mt-8 rounded-2xl border border-primary/40 bg-icons p-6"
+        >
           <Soup className="mb-5 text-black" size={42} />
 
           <h3 className="font-playfair text-2xl text-background">
@@ -200,31 +211,45 @@ function Menu({ language }) {
             {currentText.customDescription}
           </p>
 
-          <a
+          <motion.a
             href="#contact"
+            whileHover={{ x: 4 }}
+            whileTap={{ scale: 0.98 }}
             className="mt-10 inline-flex items-center justify-center gap-2 rounded-xl border border-primary/60 bg-white px-8 py-4 font-poppins text-[12px] font-bold text-black transition-colors duration-500 hover:bg-primary/70"
           >
             {currentText.contactButton}
             <MoveRight />
-          </a>
-        </div>
-      </aside>
+          </motion.a>
+        </motion.div>
+      </motion.aside>
         <div>
           {/* Header */}
-          <div className="mb-10 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="mb-10 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between"
+          >
             <div>
-              <h1 className="font-playfair text-6xl leading-none sm:text-7xl xl:text-8xl">
+              <motion.h1
+                variants={fadeUp}
+                className="font-playfair text-6xl leading-none sm:text-7xl xl:text-8xl"
+              >
                 {currentText.titleStart}{" "}
                 <span className="text-primary">
                   {currentText.titleHighlight}
                 </span>
-              </h1>
+              </motion.h1>
 
-              <p className="mt-5 max-w-[560px] font-poppins text-base leading-8 text-foreground/75 sm:text-lg">
+              <motion.p
+                variants={fadeUp}
+                className="mt-5 max-w-[560px] font-poppins text-base leading-8 text-foreground/75 sm:text-lg"
+              >
                 {currentText.description}
-              </p>
+              </motion.p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Dropdown */}
           <div className="mb-10 lg:hidden">
@@ -250,39 +275,56 @@ function Menu({ language }) {
           </div>
 
           {/* Mobile grid */}
-          <div className="grid gap-6 md:grid-cols-2 lg:hidden">
-            {visibleCategories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <article
-                  key={cat.id}
-                  className="scroll-mt-28 rounded-3xl border border-primary/30 bg-black p-6 sm:p-8"
-                >
-                  <div className="mb-6 flex items-center gap-3">
-                    <Icon className="text-primary" size={26} />
-                    <h2 className="font-playfair text-3xl text-primary sm:text-4xl">
-                      {cat.label}
-                    </h2>
-                  </div>
-                  <div className="space-y-4 pt-5">
-                    {cat.items.map(([name, price]) => (
-                    <div
-                      key={name}
-                      className="flex justify-between border-b border-primary/20 pb-3"
-                    >
-                      <p>{name}</p>
-                      <p className="font-bold text-primary">{price}</p>
+          <motion.div layout className="grid gap-6 md:grid-cols-2 lg:hidden">
+            <AnimatePresence mode="popLayout">
+              {visibleCategories.map((cat) => {
+                const Icon = cat.icon;
+                return (
+                  <motion.article
+                    layout
+                    key={cat.id}
+                    variants={fadeScale}
+                    initial="hidden"
+                    animate="visible"
+                    exit={{ opacity: 0, scale: 0.96, y: 16 }}
+                    whileHover={{ y: -6 }}
+                    className="scroll-mt-28 rounded-3xl border border-primary/30 bg-black p-6 sm:p-8"
+                  >
+                    <div className="mb-6 flex items-center gap-3">
+                      <Icon className="text-primary" size={26} />
+                      <h2 className="font-playfair text-3xl text-primary sm:text-4xl">
+                        {cat.label}
+                      </h2>
                     </div>
-                  ))}
-                  </div>
-                  
-                </article>
-              );
-            })}
-          </div>
+                    <div className="space-y-4 pt-5">
+                      {cat.items.map(([name, price]) => (
+                      <motion.div
+                        key={name}
+                        initial={{ opacity: 0, x: -8 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="flex justify-between gap-4 border-b border-primary/20 pb-3"
+                      >
+                        <p>{name}</p>
+                        <p className="font-bold text-primary">{price}</p>
+                      </motion.div>
+                    ))}
+                    </div>
+                    
+                  </motion.article>
+                );
+              })}
+            </AnimatePresence>
+          </motion.div>
 
           {/* Phone / tablet contact card */}
-          <aside className="mt-8 rounded-[2rem] border border-primary/60 bg-black/80 p-5 shadow-[0_0_35px_rgba(218,162,80,0.08)] lg:hidden">
+          <motion.aside
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={viewport}
+            transition={{ duration: 0.7, ease: easeOut }}
+            className="mt-8 rounded-[2rem] border border-primary/60 bg-black/80 p-5 shadow-[0_0_35px_rgba(218,162,80,0.08)] lg:hidden"
+          >
             <div className="rounded-[1.5rem] border border-primary/20 bg-background/70 px-4 py-6">
               <Player
                 src={food}
@@ -303,23 +345,32 @@ function Menu({ language }) {
                 {currentText.customDescription}
               </p>
 
-              <a
+              <motion.a
                 href="#contact"
+                whileTap={{ scale: 0.98 }}
                 className="mt-8 inline-flex w-full items-center justify-center gap-3 rounded-2xl border border-primary/60 bg-white px-7 py-4 font-poppins text-sm font-bold text-black transition-colors duration-500 hover:bg-primary/70 sm:w-auto"
               >
                 {currentText.contactButton}
                 <MoveRight size={22} />
-              </a>
+              </motion.a>
             </div>
-          </aside>
+          </motion.aside>
 
           {/* Desktop grid */}
-          <div className="hidden gap-6 lg:grid xl:grid-cols-3">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="hidden gap-6 lg:grid xl:grid-cols-3"
+          >
             {categories.map((cat) => {
               const Icon = cat.icon;
               return (
-                <article
+                <motion.article
                   key={cat.id}
+                  variants={fadeScale}
+                  whileHover={{ y: -8, borderColor: "rgba(218,162,80,0.68)" }}
                   className="scroll-mt-28 rounded-3xl border border-primary/30 bg-black p-6 sm:p-8"
                 >
                   <div className="mb-6 flex items-center gap-3">
@@ -329,21 +380,25 @@ function Menu({ language }) {
                     </h2>
                   </div>
                   <div className="space-y-4 pt-5">
-                    {cat.items.map(([name, price]) => (
-                    <div
+                    {cat.items.map(([name, price], index) => (
+                    <motion.div
                       key={name}
-                      className="flex justify-between border-b border-primary/20 pb-3"
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.025, duration: 0.35 }}
+                      className="flex justify-between gap-4 border-b border-primary/20 pb-3"
                     >
                       <p>{name}</p>
                       <p className="font-bold text-primary">{price}</p>
-                    </div>
+                    </motion.div>
                   ))}
                   </div>
                   
-                </article>
+                </motion.article>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

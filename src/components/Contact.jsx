@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
 import {
   MapPin,
@@ -288,18 +288,30 @@ export default function Contact({ language }) {
               className="contact-input mt-4 resize-none"
             />
 
-            <button
+            <motion.button
               type="submit"
               disabled={isSending}
+              whileHover={isSending ? undefined : { y: -3 }}
+              whileTap={isSending ? undefined : { scale: 0.98 }}
               className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-8 py-5 font-poppins text-base font-bold text-black transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSending ? currentText.sending : currentText.submit}
               <ArrowRight size={22} />
-            </button>
+            </motion.button>
 
             <p className="mt-5 flex items-center justify-center gap-2 font-poppins text-sm text-foreground/75">
               <Heart size={18} className="text-primary" />
-              {status || currentText.defaultStatus}
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={status || currentText.defaultStatus}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  {status || currentText.defaultStatus}
+                </motion.span>
+              </AnimatePresence>
             </p>
           </form>
         </motion.div>
