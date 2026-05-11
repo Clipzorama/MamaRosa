@@ -43,6 +43,8 @@ const contactText = {
     sending: "Versturen...",
     success: "Bericht succesvol verzonden!",
     error: "Er ging iets mis. Probeer opnieuw.",
+    configError:
+      "Het contactformulier is nog niet geconfigureerd. Bel of mail ons direct.",
     defaultStatus: "We reageren zo snel mogelijk!",
     directTextStart: "Liever direct contact? Bel ons op",
     directTextMiddle: "of mail naar",
@@ -75,6 +77,8 @@ const contactText = {
     sending: "Sending...",
     success: "Message sent successfully!",
     error: "Something went wrong. Please try again.",
+    configError:
+      "The contact form is not configured yet. Please call or email us directly.",
     defaultStatus: "We will respond as soon as possible!",
     directTextStart: "Prefer direct contact? Call us at",
     directTextMiddle: "or email",
@@ -85,20 +89,27 @@ export default function Contact({ language }) {
   const currentText = contactText[language];
   const form = useRef(null);
   const [status, setStatus] = useState("");
+  const [isSending, setIsSending] = useState(false);
 
   const sendEmail = (e) => {
     e.preventDefault();
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      setStatus(currentText.configError);
+      return;
+    }
+
+    if (isSending) return;
+
+    setIsSending(true);
     setStatus(currentText.sending);
 
     emailjs
-      .sendForm(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        form.current,
-        {
-          publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-        }
-      )
+      .sendForm(serviceId, templateId, form.current, { publicKey })
       .then(
         () => {
           setStatus(currentText.success);
@@ -107,7 +118,8 @@ export default function Contact({ language }) {
         () => {
           setStatus(currentText.error);
         }
-      );
+      )
+      .finally(() => setIsSending(false));
   };
 
   return (
@@ -242,15 +254,35 @@ export default function Contact({ language }) {
             className="mt-10 rounded-2xl border border-primary/35 bg-black/50 p-6 backdrop-blur-md sm:p-8"
           >
             <div className="grid gap-4 sm:grid-cols-2">
-              <input name="name" required placeholder={currentText.placeholders.name} className="contact-input" />
-              <input name="email" required type="email" placeholder={currentText.placeholders.email} className="contact-input" />
+              <input
+                name="name"
+                required
+                aria-label={currentText.placeholders.name}
+                placeholder={currentText.placeholders.name}
+                className="contact-input"
+              />
+              <input
+                name="email"
+                required
+                type="email"
+                aria-label={currentText.placeholders.email}
+                placeholder={currentText.placeholders.email}
+                className="contact-input"
+              />
             </div>
 
-            <input name="subject" required placeholder={currentText.placeholders.subject} className="contact-input mt-4" />
+            <input
+              name="subject"
+              required
+              aria-label={currentText.placeholders.subject}
+              placeholder={currentText.placeholders.subject}
+              className="contact-input mt-4"
+            />
 
             <textarea
               name="message"
               required
+              aria-label={currentText.placeholders.message}
               placeholder={currentText.placeholders.message}
               rows="6"
               className="contact-input mt-4 resize-none"
@@ -258,9 +290,11 @@ export default function Contact({ language }) {
 
             <button
               type="submit"
-              className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-8 py-5 font-poppins text-base font-bold text-black transition hover:bg-primary/90"
+              disabled={isSending}
+              className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-8 py-5 font-poppins text-base font-bold text-black transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              {currentText.submit} <ArrowRight size={22} />
+              {isSending ? currentText.sending : currentText.submit}
+              <ArrowRight size={22} />
             </button>
 
             <p className="mt-5 flex items-center justify-center gap-2 font-poppins text-sm text-foreground/75">

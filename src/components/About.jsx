@@ -154,6 +154,7 @@ export default function About({ language }) {
                     key={label}
                     href={href}
                     target="_blank"
+                    rel="noreferrer"
                     whileHover={{ y: -4, scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                     className={`flex items-center gap-3 rounded-xl px-6 py-4 font-poppins text-sm font-bold shadow-lg transition-all ${className}`}

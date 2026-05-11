@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import UnicornScene from "unicornstudio-react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import phoner from "../adds/phoner.webp";
 
+const UnicornScene = lazy(() => import("unicornstudio-react"));
 
 function Effect() {
   const [device, setDevice] = useState("desktop");
@@ -33,12 +33,14 @@ function Effect() {
       {/* Desktop + Tablet: keep Unicorn */}
       {device !== "mobile" && (
         <div className="hero-unicorn opacity-0 animate-fade-in-delay-1">
-          <UnicornScene
-            key={device}
-            projectId={projectIds[device]}
-            scale={1}
-            dpi={device === "desktop" ? 0.8 : 0.75}
-          />
+          <Suspense fallback={null}>
+            <UnicornScene
+              key={device}
+              projectId={projectIds[device]}
+              scale={1}
+              dpi={device === "desktop" ? 0.8 : 0.75}
+            />
+          </Suspense>
         </div>
       )}
 

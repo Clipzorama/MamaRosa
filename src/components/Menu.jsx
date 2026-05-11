@@ -35,7 +35,7 @@ function Menu({ language }) {
       titleStart: "Our",
       titleHighlight: "Menu",
       description:
-        "Our dishes are carefully created  from scratch with perfection with clean fresh ingredients.",
+        "Our dishes are carefully created from scratch with clean, fresh ingredients.",
       viewAll: "View all",
     },
   };
@@ -50,7 +50,7 @@ function Menu({ language }) {
     items: [
       [language === "nl" ? "Tempeh / kousenband" : "Tempeh / long beans", "€6,50"],
       [language === "nl" ? "Kerrie ei" : "Curry egg", "€6,50"],
-      [language === "nl" ? "Advocado" : "Avocado", "€6,50"],
+      [language === "nl" ? "Avocado" : "Avocado", "€6,50"],
       [language === "nl" ? "Ketjap kip" : "Soy sauce chicken", "€6,50"],
       [language === "nl" ? "Tjaseuw kip" : "Char siu chicken", "€6,50"],
       ["Fa-chong", "€6,50"],
