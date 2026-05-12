@@ -165,7 +165,7 @@ export default function ScrollStory({ language }) {
     <section ref={sectionRef} className="relative bg-background text-foreground">
       <div
         data-story-pin
-        className="relative isolate flex min-h-[100svh] overflow-hidden px-4 py-16 sm:px-6 sm:py-20 lg:px-8"
+        className="relative isolate flex min-h-[100svh] overflow-hidden px-4 pb-16 pt-28 sm:px-6 sm:py-20 lg:px-8"
       >
         <div className="absolute inset-x-0 top-0 h-px bg-primary/25" />
         <div
