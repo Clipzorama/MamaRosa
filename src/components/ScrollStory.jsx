@@ -239,10 +239,10 @@ export default function ScrollStory({ language }) {
 
             {currentText.stages.map((stage, index) => {
               const positions = [
-                "left-[4%] top-[8%]",
-                "right-[4%] top-[14%]",
+                "left-[3%] top-[14%]",
+                "right-[-1%] top-[14%]",
                 "right-[0%] bottom-[15%]",
-                "left-[7%] bottom-[8%]",
+                "left-[1%] bottom-[15%]",
               ];
 
               return (
