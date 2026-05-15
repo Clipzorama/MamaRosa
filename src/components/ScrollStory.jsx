@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Sparkles } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 const storyText = {
   nl: {
@@ -160,6 +161,18 @@ export default function ScrollStory({ language }) {
 
     return () => ctx.revert();
   }, [language]);
+
+  useLayoutEffect(() => {
+    const refreshScrollStory = () => {
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    };
+
+    window.addEventListener("mamarosa:layout-change", refreshScrollStory);
+
+    return () => {
+      window.removeEventListener("mamarosa:layout-change", refreshScrollStory);
+    };
+  }, []);
 
   return (
     <section ref={sectionRef} className="relative bg-background text-foreground">

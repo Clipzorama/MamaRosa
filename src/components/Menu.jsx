@@ -1,5 +1,5 @@
 // src/components/Menu.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Star,
@@ -173,6 +173,20 @@ function Menu({ language }) {
 
   const [selectedCategory, setSelectedCategory] = useState("all");
 
+  const notifyLayoutChange = () => {
+    requestAnimationFrame(() => {
+      window.dispatchEvent(new Event("mamarosa:layout-change"));
+    });
+  };
+
+  useEffect(() => {
+    notifyLayoutChange();
+
+    const refreshAfterAnimation = window.setTimeout(notifyLayoutChange, 500);
+
+    return () => window.clearTimeout(refreshAfterAnimation);
+  }, [selectedCategory]);
+
   const visibleCategories =
     selectedCategory === "all"
       ? categories
@@ -275,7 +289,11 @@ function Menu({ language }) {
           </div>
 
           {/* Mobile grid */}
-          <motion.div layout className="grid gap-6 md:grid-cols-2 lg:hidden">
+          <motion.div
+            layout
+            onLayoutAnimationComplete={notifyLayoutChange}
+            className="grid gap-6 md:grid-cols-2 lg:hidden"
+          >
             <AnimatePresence mode="popLayout">
               {visibleCategories.map((cat) => {
                 const Icon = cat.icon;
