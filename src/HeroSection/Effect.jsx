@@ -23,10 +23,22 @@ function Effect() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const projectIds = {
-    desktop: "lrYTiuLBVWmOfPRhCTBU",
-    tablet: "xnRwB8iye1MeiSPw8wcA",
+  const sceneProfiles = {
+    desktop: {
+      projectId: "lrYTiuLBVWmOfPRhCTBU",
+      scale: 1,
+      dpi: 0.9,
+      fps: 120,
+    },
+    tablet: {
+      projectId: "xnRwB8iye1MeiSPw8wcA",
+      scale: 1,
+      dpi: 0.75,
+      fps: 60,
+    },
   };
+
+  const sceneProfile = sceneProfiles[device];
 
   return (
     <>
@@ -36,9 +48,11 @@ function Effect() {
           <Suspense fallback={null}>
             <UnicornScene
               key={device}
-              projectId={projectIds[device]}
-              scale={1}
-              dpi={device === "desktop" ? 0.8 : 0.75}
+              projectId={sceneProfile.projectId}
+              scale={sceneProfile.scale}
+              dpi={sceneProfile.dpi}
+              fps={sceneProfile.fps}
+              lazyLoad
             />
           </Suspense>
         </div>
