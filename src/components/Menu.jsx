@@ -100,7 +100,7 @@ function Menu({ language }) {
           language === "nl" ? "Nasi speciaal" : "Special fried rice",
           "€18,50",
         ],
-        ["Jar pesi Moxi Alesi", "€18,50"],
+        ["Jar pesi Moxi Alesi", "€21,50"],
         [
           language === "nl"
             ? "Bruine bonen zoutvlees / gerookte kip"
