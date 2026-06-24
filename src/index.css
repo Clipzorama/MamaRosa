@@ -18,6 +18,7 @@
 
     --color-primary: hsl(var(--primary));
     --color-foreground: hsl(var(--foreground));
+    
     --color-icons: hsl(var(--icons));
     
     --animate-fade-in: fade-in 0.7s ease-out forwards;

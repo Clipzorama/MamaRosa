@@ -8,6 +8,7 @@ import {
   CupSoda,
   Utensils,
   Leaf,
+  Sprout,
   Flame,
   MoveRight,
   ChevronDown,
@@ -33,6 +34,8 @@ function Menu({ language }) {
       titleHighlight: "Menu",
       description:
         "Onze gerechten worden met uiterste zorg en perfectie, volledig vanaf de basis, bereid met pure, verse ingrediënten.",
+      veganTitle: "Vegan gerechten",
+      veganDescription: "Alle vegan gerechten kosten €15,00. Vraag ons naar de beschikbare opties.",
       viewAll: "Alles bekijken",
     },
     en: {
@@ -44,6 +47,9 @@ function Menu({ language }) {
       titleHighlight: "Menu",
       description:
         "Our dishes are carefully created from scratch with clean, fresh ingredients.",
+      veganTitle: "Vegan dishes",
+      veganDescription:
+        "All vegan dishes are €15,00. Ask us about the available options.",
       viewAll: "View all",
     },
   };
@@ -89,35 +95,36 @@ function Menu({ language }) {
       label: language === "nl" ? "Hoofdgerechten" : "Main dishes",
       icon: Utensils,
       items: [
-        [language === "nl" ? "Bami kip" : "Bami chicken", "€16,50"],
-        [language === "nl" ? "Tjauwmin kip" : "Chow mein chicken", "€16,50"],
+        [language === "nl" ? "Bami kip" : "Bami chicken", "€17,00"],
+        [language === "nl" ? "Tjauwmin kip" : "Chow mein chicken", "€17,00"],
         [
           language === "nl" ? "Tjauwmin speciaal" : "Special chow mein",
-          "€18,50",
+          "€19,00",
         ],
-        [language === "nl" ? "Nasi kip" : "Fried rice chicken", "€16,50"],
+        [language === "nl" ? "Nasi kip" : "Fried rice chicken", "€17,00"],
         [
           language === "nl" ? "Nasi speciaal" : "Special fried rice",
-          "€18,50",
+          "€19,00",
         ],
-        ["Jar pesi Moxi Alesi", "€21,50"],
+        ["Bakkeljauw saltfish", "€17,00"],
+        ["Jar pesi Moxi Alesi", "€22,00"],
         [
           language === "nl"
             ? "Bruine bonen zoutvlees / gerookte kip"
             : "Brown beans salted beef / smoked chicken",
-          "€16,50",
+          "€17,00",
         ],
         [
           language === "nl"
             ? "Char-siu bake met nasi/chow mein"
             : "Char-siu bake with fried rice/chow mein",
-          "€18,50",
+          "€19,00",
         ],
         [
           language === "nl"
             ? "Ketjap kip met nasi/chow mein"
             : "Soy sauce chicken with fried rice/chow mein",
-          "€16,50",
+          "€17,00",
         ],
       ],
     },
@@ -128,6 +135,10 @@ function Menu({ language }) {
       items: [
         [language === "nl" ? "Rotirol vega" : "Vegetarian roti roll", "€12,00"],
         [language === "nl" ? "Rotirol kip" : "Chicken roti roll", "€14,00"],
+        [
+          language === "nl" ? "Roti kip met ei" : "Chicken roti with egg",
+          "€16,50",
+        ],
         [
           language === "nl"
             ? "Kip filet met kousenband"
@@ -172,15 +183,15 @@ function Menu({ language }) {
       items: [
         [
           language === "nl" ? "Alle combinaties" : "All combination",
-          "€21,50",
+          "€20,00",
         ],
         [
           language === "nl" ? "Gerechten zonder vlees" : "Dishes without meat",
-          "€13,00",
+          "€13,50",
         ],
-        ["Taco: shrimp, chicken, and ground beef", "€12,50"],
+        ["Taco: shrimp, chicken, and ground beef", "€13,00"],
         ["Tortilla wrap"],
-        ["Pepper water", "€15,00"],
+        ["Pepper water", "€16,00"],
         ["Collagen soup"],
       ],
     },
@@ -189,9 +200,11 @@ function Menu({ language }) {
       label: language === "nl" ? "Soepen" : "Soups",
       icon: Soup,
       items: [
-        [language === "nl" ? "Pinda soep" : "Peanut soup", "€12,50"],
-        [language === "nl" ? "Sauto soep" : "Saoto soup", "€8,50"],
-        [language === "nl" ? "Brafu soep" : "Brafu soup", "€12,50"],
+        [language === "nl" ? "Pinda soep" : "Peanut soup", "€13,00"],
+        [language === "nl" ? "Sauto soep" : "Saoto soup", "€10,00"],
+        [language === "nl" ? "Brafu soep" : "Brafu soup", "€13,00"],
+        ["Pepperpot", "€16,00"],
+        [language === "nl" ? "Koul soep" : "Chicken soup", "€16,00"],
       ],
     },
     {
@@ -201,20 +214,20 @@ function Menu({ language }) {
       items: [
         [
           language === "nl" ? "Teloh bakkeljauw" : "Teloh with salted cod",
-          "€8,50",
+          "€10,00",
         ],
         [
           language === "nl"
             ? "Speciaal / trie / lever / bakkeljauw"
             : "Special / trie / liver / salted cod",
-          "€12,50",
+          "€15,00",
         ],
-        [language === "nl" ? "Baka bana" : "Fried plantain", "€7,00"],
-        [language === "nl" ? "Sate kip" : "Chicken satay", "€7,00"],
-        [language === "nl" ? "Sate gambas" : "Prawn satay", "€8,00"],
-        [language === "nl" ? "Pom ballen" : "Pom balls", "€7,00"],
-        [language === "nl" ? "Mais Pap" : "Corn porridge", "€7,00"],
-        [language === "nl" ? "Banaan Pap" : "Banana porridge", "€7,00"],
+        [language === "nl" ? "Baka bana" : "Fried plantain", "€7,50"],
+        [language === "nl" ? "Sate kip" : "Chicken satay", "€7,50"],
+        [language === "nl" ? "Sate gambas" : "Prawn satay", "€8,50"],
+        [language === "nl" ? "Pom ballen" : "Pom balls", "€7,50"],
+        [language === "nl" ? "Mais Pap" : "Corn porridge", "€7,50"],
+        [language === "nl" ? "Banaan Pap" : "Banana porridge", "€7,50"],
       ],
     },
     {
@@ -222,17 +235,20 @@ function Menu({ language }) {
       label: language === "nl" ? "Dranken" : "Drinks",
       icon: CupSoda,
       items: [
-        ["Fernandes", "€2,50"],
-        ["Fanta", "€2,50"],
-        ["Redbull", "€3,00"],
-        ["Water", "€2,00"],
-        ["Markoesa slush", "€3,00"],
+        ["Fernandes", "€3,50"],
+        ["Fanta", "€3,00"],
+        ["Red Bull", "€3,75"],
+        ["Water", "€3,00"],
+        ["Cola", "€3,00"],
+        ["Markoesa siroop", "€3,50"],
         [language === "nl" ? "Gember" : "Ginger", "€3,00"],
         [
-          language === "nl" ? "Cola siroop slush" : "Cola syrup slush",
-          "€2,50",
+          language === "nl" ? "Cola siroop" : "Cola syrup slush",
+          "€3,50",
         ],
         ["Dawet slush", "€3,00"],
+        ["Camber beer", "€3,50"],
+        ["Osawadt", "€3,50"],
       ],
     },
   ];
@@ -397,6 +413,23 @@ function Menu({ language }) {
               >
                 {currentText.description}
               </motion.p>
+
+              <motion.div
+                variants={fadeUp}
+                className="mt-6 flex max-w-[620px] items-center gap-4 rounded-2xl border border-primary/35 bg-primary/10 px-4 py-4 sm:px-5"
+              >
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-background text-primary">
+                  <Sprout size={21} />
+                </span>
+                <div className="min-w-0">
+                  <p className="font-poppins text-sm font-bold text-primary sm:text-base">
+                    {currentText.veganTitle} · €15,00
+                  </p>
+                  <p className="mt-1 font-poppins text-xs leading-5 text-foreground/75 sm:text-sm">
+                    {currentText.veganDescription}
+                  </p>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
 
