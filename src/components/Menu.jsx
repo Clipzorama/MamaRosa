@@ -8,7 +8,6 @@ import {
   CupSoda,
   Utensils,
   Leaf,
-  Sprout,
   Flame,
   MoveRight,
   ChevronDown,
@@ -34,8 +33,6 @@ function Menu({ language }) {
       titleHighlight: "Menu",
       description:
         "Onze gerechten worden met uiterste zorg en perfectie, volledig vanaf de basis, bereid met pure, verse ingrediënten.",
-      veganTitle: "Vegan gerechten",
-      veganDescription: "Alle vegan gerechten kosten €15,00. Vraag ons naar de beschikbare opties.",
       viewAll: "Alles bekijken",
     },
     en: {
@@ -47,9 +44,6 @@ function Menu({ language }) {
       titleHighlight: "Menu",
       description:
         "Our dishes are carefully created from scratch with clean, fresh ingredients.",
-      veganTitle: "Vegan dishes",
-      veganDescription:
-        "All vegan dishes are €15,00. Ask us about the available options.",
       viewAll: "View all",
     },
   };
@@ -243,7 +237,7 @@ function Menu({ language }) {
         ["Markoesa siroop", "€3,50"],
         [language === "nl" ? "Gember" : "Ginger", "€3,00"],
         [
-          language === "nl" ? "Cola siroop" : "Cola syrup slush",
+          language === "nl" ? "Cola siroop" : "Cola siroop ",
           "€3,50",
         ],
         ["Dawet slush", "€3,00"],
@@ -413,23 +407,6 @@ function Menu({ language }) {
               >
                 {currentText.description}
               </motion.p>
-
-              <motion.div
-                variants={fadeUp}
-                className="mt-6 flex max-w-[620px] items-center gap-4 rounded-2xl border border-primary/35 bg-primary/10 px-4 py-4 sm:px-5"
-              >
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-primary/40 bg-background text-primary">
-                  <Sprout size={21} />
-                </span>
-                <div className="min-w-0">
-                  <p className="font-poppins text-sm font-bold text-primary sm:text-base">
-                    {currentText.veganTitle} · €15,00
-                  </p>
-                  <p className="mt-1 font-poppins text-xs leading-5 text-foreground/75 sm:text-sm">
-                    {currentText.veganDescription}
-                  </p>
-                </div>
-              </motion.div>
             </div>
           </motion.div>
 
