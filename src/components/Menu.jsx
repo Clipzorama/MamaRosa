@@ -152,7 +152,7 @@ function Menu({ language }) {
             : "Chicken on the bone / long beans",
           "€15,00",
         ],
-        [language === "nl" ? "Vega / kousenband" : "Vegetarian / long beans", "€14,50"],
+        [language === "nl" ? "Vegetarisch / kousenband" : "Vegetarian / long beans", "€14,50"],
         [language === "nl" ? "Roti plaat" : "Roti flatbread", "€3,00"],
       ],
     },
