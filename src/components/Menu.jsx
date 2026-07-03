@@ -205,7 +205,7 @@ function Menu({ language }) {
         [language === "nl" ? "Sauto soep" : "Saoto soup", "€10,00"],
         [language === "nl" ? "Brafu soep" : "Brafu soup", "€13,00"],
         ["Pepperpot", "€16,00"],
-        [language === "nl" ? "Koul soep" : "Chicken soup", "€16,00"],
+        [language === "nl" ? "Collagen soep" : "Chicken soup", "€16,00"],
       ],
     },
     {
