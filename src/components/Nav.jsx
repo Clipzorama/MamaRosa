@@ -1,12 +1,19 @@
-import { Menu, X, Languages } from "lucide-react";
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import { easeOut } from "../lib/motion";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, X } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import "./Nav.css";
 
 const navText = {
   nl: {
     subtitle: "Surinaamse Fusion Cuisine",
     languageLabel: "Taal",
+    navigationLabel: "Hoofdnavigatie",
+    openLabel: "Open navigatie",
+    closeLabel: "Sluiten",
+    welcome: "Aan tafel bij Mama Rosa",
+    roots: "Surinaamse roots.",
+    warmth: "Caribische warmte.",
+    location: "Vind ons in Almere",
     links: [
       { label: "Home", href: "#home", id: "home" },
       { label: "Menu", href: "#menu", id: "menu" },
@@ -14,10 +21,16 @@ const navText = {
       { label: "Contact", href: "#contact", id: "contact" },
     ],
   },
-
   en: {
     subtitle: "Surinamese Fusion Cuisine",
     languageLabel: "Language",
+    navigationLabel: "Main navigation",
+    openLabel: "Open navigation",
+    closeLabel: "Close",
+    welcome: "A seat at Mama Rosa",
+    roots: "Surinamese roots.",
+    warmth: "Caribbean warmth.",
+    location: "Find us in Almere",
     links: [
       { label: "Home", href: "#home", id: "home" },
       { label: "Menu", href: "#menu", id: "menu" },
@@ -27,239 +40,189 @@ const navText = {
   },
 };
 
-function Nav({ language, setLanguage }) {
-  const [isActive, setIsActive] = useState("home");
-  const [isOpen, setIsOpen] = useState(false);
-  const { scrollY } = useScroll();
-  const navPadding = useTransform(scrollY, [0, 140], [16, 10]);
-  const navBackground = useTransform(
-    scrollY,
-    [0, 140],
-    ["rgba(0,0,0,0.70)", "rgba(0,0,0,0.88)"]
-  );
-
-  const currentText = navText[language];
-
-  const handleNavClick = (id) => {
-    setIsActive(id);
-    setIsOpen(false);
-  };
-
-  const handleLanguageChange = (selectedLanguage) => {
-    setLanguage(selectedLanguage);
-    setIsOpen(false);
-  };
-
-
-  // scroll detection on nav 
-  useEffect(() => {
-    const sectionIds = currentText.links.map((link) => link.id);
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 180;
-
-      let currentSection = "home";
-
-      sectionIds.forEach((id) => {
-        const section = document.getElementById(id);
-
-        if (section && section.offsetTop <= scrollPosition) {
-          currentSection = id;
-        }
-      });
-
-      setIsActive(currentSection);
-    };
-
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [currentText.links]);
-
+function Wordmark({ subtitle }) {
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -18 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.2, ease: easeOut }}
-      className="fixed left-0 top-0 z-[90] w-full px-4 pt-4 sm:px-6 lg:px-8"
-    >
-      <motion.nav
-        style={{ paddingTop: navPadding, paddingBottom: navPadding, backgroundColor: navBackground }}
-        className="mx-auto flex max-w-[1920px] items-center justify-between rounded-[26px] border border-primary/55 px-5 shadow-[0_0_40px_rgba(218,162,80,0.14)] backdrop-blur-xl sm:px-7 lg:px-10 xl:px-14"
-      >
-        <a
-          href="#home"
-          onClick={() => handleNavClick("home")}
-          className="flex flex-col leading-none"
-        >
-          <div className="font-cinzel text-[22px] font-semibold leading-none tracking-[0.13em] text-primary sm:text-[28px] lg:text-[34px] xl:text-[38px]">
-            MAMAROSA
-          </div>
-
-          <p className="mt-2 hidden text-center font-poppins text-[9px] font-semibold uppercase tracking-[0.23em] text-primary/80 sm:block lg:text-[11px]">
-            {currentText.subtitle}
-          </p>
-        </a>
-
-        {/* Desktop nav */}
-        <div className="hidden flex-1 items-center justify-center font-poppins text-[14px] font-medium uppercase tracking-[0.04em] text-foreground/80 xl:flex">
-          <div className="grid grid-cols-4 place-items-center gap-16 2xl:gap-20">
-            {currentText.links.map((link) => (
-              <a
-                key={link.id}
-                href={link.href}
-                onClick={() => handleNavClick(link.id)}
-                className={`relative whitespace-nowrap transition-colors duration-300 hover:text-primary ${
-                  isActive === link.id ? "text-primary" : ""
-                }`}
-              >
-                {link.label}
-
-                {isActive === link.id && (
-                  <motion.span
-                    layoutId="active-nav-pill"
-                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                    className="absolute -bottom-4 left-1/2 h-[3px] w-8 -translate-x-1/2 rounded-full bg-primary shadow-[0_0_14px_rgba(218,162,80,0.7)]"
-                  />
-                )}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Desktop language switcher */}
-        <div className="hidden items-center gap-7 xl:flex">
-          <button
-            type="button"
-            onClick={() => handleLanguageChange("nl")}
-            className={`font-poppins text-[15px] font-bold transition-colors ${
-              language === "nl"
-                ? "text-primary"
-                : "text-foreground/55 hover:text-primary"
-            }`}
-          >
-            NL
-          </button>
-
-          <span className="text-primary/50">/</span>
-
-          <button
-            type="button"
-            onClick={() => handleLanguageChange("en")}
-            className={`font-poppins text-[15px] font-bold transition-colors ${
-              language === "en"
-                ? "text-primary"
-                : "text-foreground/55 hover:text-primary"
-            }`}
-          >
-            EN
-          </button>
-
-          <div className="h-12 w-px bg-primary/35" />
-
-          <button
-            type="button"
-            aria-label="Switch language"
-            onClick={() =>
-              handleLanguageChange(language === "nl" ? "en" : "nl")
-            }
-            className="grid h-14 w-14 place-items-center rounded-full border border-primary/60 text-primary transition duration-300 hover:bg-primary hover:text-black"
-          >
-            <Languages size={25} strokeWidth={2.1} />
-          </button>
-        </div>
-
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          aria-label="Toggle navigation menu"
-          onClick={() => setIsOpen(!isOpen)}
-          className="grid h-12 w-12 place-items-center rounded-full border border-primary/45 text-primary transition-colors hover:bg-primary hover:text-black xl:hidden"
-        >
-          {isOpen ? <X size={25} /> : <Menu size={27} />}
-        </button>
-      </motion.nav>
-
-      {/* Mobile / tablet dropdown */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0, y: -8 }}
-            animate={{ opacity: 1, height: "auto", y: 0 }}
-            exit={{ opacity: 0, height: 0, y: -8 }}
-            transition={{ duration: 0.45, ease: easeOut }}
-            className="mx-auto mt-3 max-w-[1920px] overflow-hidden rounded-[24px] border border-primary/35 bg-black/90 shadow-[0_0_35px_rgba(218,162,80,0.12)] backdrop-blur-xl xl:hidden"
-          >
-            <div className="flex flex-col px-6 py-6">
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: {},
-                  visible: { transition: { staggerChildren: 0.06 } },
-                }}
-                className="flex flex-col gap-1"
-              >
-                {currentText.links.map((link) => (
-                  <motion.a
-                    key={link.id}
-                    href={link.href}
-                    onClick={() => handleNavClick(link.id)}
-                    variants={{
-                      hidden: { opacity: 0, x: -12 },
-                      visible: { opacity: 1, x: 0 },
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`rounded-2xl px-4 py-4 font-poppins text-[15px] font-medium uppercase tracking-[0.08em] transition-colors ${
-                      isActive === link.id
-                        ? "bg-primary/10 text-primary"
-                        : "text-foreground/75 hover:bg-primary/10 hover:text-primary"
-                    }`}
-                  >
-                    {link.label}
-                  </motion.a>
-                ))}
-              </motion.div>
-
-              <div className="my-5 h-px w-full bg-primary/25" />
-
-              <div className="flex items-center justify-between rounded-2xl border border-primary/35 px-4 py-4">
-                <span className="font-poppins text-[13px] font-semibold uppercase tracking-[0.12em] text-foreground/70">
-                  {currentText.languageLabel}
-                </span>
-
-                <div className="flex items-center gap-4 font-poppins text-[15px] font-bold">
-                  <button
-                    type="button"
-                    onClick={() => handleLanguageChange("nl")}
-                    className={
-                      language === "nl" ? "text-primary" : "text-foreground/45"
-                    }
-                  >
-                    NL
-                  </button>
-
-                  <span className="text-primary/40">/</span>
-
-                  <button
-                    type="button"
-                    onClick={() => handleLanguageChange("en")}
-                    className={
-                      language === "en" ? "text-primary" : "text-foreground/45"
-                    }
-                  >
-                    EN
-                  </button>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+    <>
+      <span className="editorial-nav__wordmark">MAMAROSA</span>
+      <span className="editorial-nav__subtitle">{subtitle}</span>
+    </>
   );
 }
 
-export default Nav;
+function LanguageSwitch({ language, onChange, label }) {
+  return (
+    <div className="editorial-nav__languages" role="group" aria-label={label}>
+      <button type="button" lang="nl" aria-label="Nederlands" aria-pressed={language === "nl"}
+        onClick={() => onChange("nl")}>NL</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" lang="en" aria-label="English" aria-pressed={language === "en"}
+        onClick={() => onChange("en")}>EN</button>
+    </div>
+  );
+}
+
+export default function Nav({ language, setLanguage }) {
+  const [isActive, setIsActive] = useState("home");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isCompact, setIsCompact] = useState(false);
+  const dialogRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const brandRef = useRef(null);
+  const reducedMotion = useReducedMotion();
+  const currentText = navText[language] ?? navText.nl;
+
+  const closeMenu = () => {
+    // Close before the anchor event bubbles to FoodJourney's #about handler.
+    // That lets the destination receive focus outside the modal dialog.
+    if (dialogRef.current?.open) dialogRef.current.close();
+    setIsOpen(false);
+  };
+
+  const handleNavClick = (id) => {
+    closeMenu();
+    setIsActive(id);
+  };
+
+  const handleDialogKeyDown = (event) => {
+    if (event.key !== "Tab") return;
+    const controls = [...dialogRef.current.querySelectorAll('a[href], button:not([disabled])')]
+      .filter((control) => control.getClientRects().length > 0);
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      let currentSection = "home";
+      currentText.links.forEach(({ id }) => {
+        const section = document.getElementById(id);
+        if (section && !section.closest("[inert]") && section.getBoundingClientRect().top <= 140) {
+          currentSection = id;
+        }
+      });
+      setIsActive(currentSection);
+      setIsCompact(window.scrollY > 64);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("mamarosa:story-change", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mamarosa:story-change", handleScroll);
+    };
+  }, [currentText.links]);
+
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const dialog = dialogRef.current;
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    const previousGutter = root.style.scrollbarGutter;
+    root.style.scrollbarGutter = "stable";
+    root.style.overflow = "hidden";
+    dialog.showModal();
+    closeButtonRef.current?.focus({ preventScroll: true });
+
+    const desktop = window.matchMedia("(min-width: 1100px)");
+    const closeOnDesktop = () => {
+      if (!desktop.matches) return;
+      dialog.close();
+      setIsOpen(false);
+      brandRef.current?.focus({ preventScroll: true });
+    };
+    desktop.addEventListener("change", closeOnDesktop);
+
+    return () => {
+      desktop.removeEventListener("change", closeOnDesktop);
+      if (dialog.open) dialog.close();
+      root.style.overflow = previousOverflow;
+      root.style.scrollbarGutter = previousGutter;
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      <header className={`editorial-nav${isCompact ? " editorial-nav--compact" : ""}`}>
+        <div className="editorial-nav__bar">
+          <a ref={brandRef} href="#home" className="editorial-nav__brand" onClick={() => handleNavClick("home")}>
+            <Wordmark subtitle={currentText.subtitle} />
+          </a>
+
+          <nav className="editorial-nav__desktop" aria-label={currentText.navigationLabel}>
+            {currentText.links.map((link) => (
+              <a key={link.id} href={link.href} onClick={() => handleNavClick(link.id)}
+                aria-current={isActive === link.id ? "location" : undefined}>
+                {link.label}
+                {isActive === link.id && (
+                  <motion.span className="editorial-nav__indicator" layoutId="editorial-nav-indicator"
+                    transition={reducedMotion ? { duration: 0 } : { type: "spring", stiffness: 400, damping: 36 }} />
+                )}
+              </a>
+            ))}
+          </nav>
+
+          <div className="editorial-nav__desktop-language">
+            <LanguageSwitch language={language} onChange={setLanguage} label={currentText.languageLabel} />
+          </div>
+          <button type="button" className="editorial-nav__toggle" onClick={() => setIsOpen(true)}
+            aria-label={currentText.openLabel} aria-expanded={isOpen} aria-controls="navigation-dialog" aria-haspopup="dialog">
+            <span>Menu</span>
+            <span className="editorial-nav__menu-icon" aria-hidden="true"><span /><span /></span>
+          </button>
+        </div>
+      </header>
+
+      <dialog ref={dialogRef} id="navigation-dialog" className="nav-dialog" aria-label={currentText.navigationLabel}
+        onKeyDown={handleDialogKeyDown} onCancel={() => setIsOpen(false)} onClose={() => setIsOpen(false)}>
+        <div className="nav-dialog__header">
+          <a href="#home" className="editorial-nav__brand" onClick={() => handleNavClick("home")}>
+            <Wordmark subtitle={currentText.subtitle} />
+          </a>
+          <button ref={closeButtonRef} type="button" className="editorial-nav__toggle" onClick={closeMenu}>
+            <span>{currentText.closeLabel}</span><X size={23} strokeWidth={1.4} aria-hidden="true" />
+          </button>
+        </div>
+
+        <div className="nav-dialog__body">
+          <div className="nav-dialog__index">
+            <p className="nav-dialog__eyebrow">{currentText.welcome}</p>
+            <nav aria-label={currentText.navigationLabel} className="nav-dialog__links">
+              {currentText.links.map((link, index) => (
+                <a key={link.id} href={link.href} onClick={() => handleNavClick(link.id)}
+                  aria-current={isActive === link.id ? "location" : undefined}
+                  style={{ "--link-index": index }}>
+                  <span className="nav-dialog__number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="nav-dialog__link-label">{link.label}</span>
+                  <ArrowUpRight className="nav-dialog__arrow" size={25} strokeWidth={1.3} aria-hidden="true" />
+                </a>
+              ))}
+            </nav>
+          </div>
+          <aside className="nav-dialog__aside">
+            <p>{currentText.roots}<br /><em>{currentText.warmth}</em></p>
+            <span>{currentText.subtitle}</span>
+          </aside>
+        </div>
+
+        <div className="nav-dialog__footer">
+          <div className="nav-dialog__address">
+            <span>{currentText.location}</span>
+            <p>Cinemadreef 52 · Almere</p>
+          </div>
+          <div className="nav-dialog__language">
+            <span>{currentText.languageLabel}</span>
+            <LanguageSwitch language={language} onChange={setLanguage} label={currentText.languageLabel} />
+          </div>
+        </div>
+      </dialog>
+    </>
+  );
+}

@@ -1,0 +1,125 @@
+/* The hero itself is the stage. Only these small editorial notes are temporary. */
+.hero-signature {
+  transform-origin: 0 0;
+}
+
+.hero-poster {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.hero-poster--mobile {
+  width: 100%;
+  object-fit: cover;
+  object-position: 62% bottom;
+  transform: scale(1.02);
+}
+
+/* Match the scene's large, right-aligned portrait while WebGL initializes. */
+.hero-poster--desktop { height: 250%; max-width: none; }
+.hero-poster--tablet { height: 180%; max-width: none; }
+
+.hero-poster--loaded { opacity: 0; transition: opacity 450ms ease; }
+.hero-live-scene { position: relative; opacity: 0; }
+.hero-live-scene--ready { opacity: 1; transition: opacity 450ms ease; }
+.hero-scene-mount { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+[data-intro="playing"] [data-intro-brand] {
+  visibility: hidden;
+  will-change: transform, clip-path;
+}
+
+[data-intro="playing"] [data-intro-copy],
+[data-intro="playing"] .editorial-nav,
+[data-intro="playing"] .hero-unicorn {
+  opacity: 0;
+}
+
+[data-intro="playing"] .hero-unicorn {
+  will-change: clip-path;
+}
+
+.intro-chrome {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  color: var(--color-primary);
+  font-family: var(--font-poppins);
+}
+
+.intro-chrome__note {
+  position: absolute;
+  inset: calc(47svh - clamp(95px, 10vw, 180px)) 20px auto;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+.intro-chrome__invitation {
+  position: absolute;
+  inset: calc(47svh + clamp(75px, 8vw, 150px)) 24px auto;
+  text-align: center;
+  opacity: 0;
+}
+
+.intro-chrome__rule {
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin: 0 auto 22px;
+  background: currentColor;
+  opacity: 0.55;
+}
+
+.intro-chrome__invitation p {
+  margin: 0 0 9px;
+  font-family: var(--font-playfair);
+  font-size: clamp(20px, 2vw, 28px);
+  font-style: italic;
+  color: var(--color-foreground);
+}
+
+.intro-chrome__invitation > span:last-child {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.intro-chrome__place {
+  position: absolute;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.intro-chrome__place { left: clamp(24px, 4vw, 64px); }
+
+@media (max-width: 640px) {
+  .intro-chrome__note {
+    top: calc(43svh - 72px);
+    font-size: 8px;
+    letter-spacing: 0.18em;
+  }
+  .intro-chrome__invitation { top: calc(43svh + 58px); }
+  .intro-chrome__rule { margin-bottom: 18px; width: 28px; }
+  .intro-chrome__place { font-size: 8px; letter-spacing: 0.08em; }
+}
+
+@media (max-height: 500px) and (min-width: 641px) {
+  .intro-chrome__note { top: 15svh; }
+  .intro-chrome__invitation { top: 70svh; }
+  .intro-chrome__rule { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-chrome { display: none; }
+  .hero-unicorn { animation: none; }
+  .hero-poster, .hero-live-scene { transition: none; }
+}

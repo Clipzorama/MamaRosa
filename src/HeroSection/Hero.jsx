@@ -6,7 +6,7 @@ import {
   Star,
   Utensils,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Effect from "./Effect";
 import { easeOut, fadeUp, staggerContainer } from "../lib/motion";
 
@@ -40,7 +40,9 @@ const heroText = {
   },
 };
 
-function Hero({ language }) {
+function Hero({ language, cinematic = false }) {
+  const reducedMotion = useReducedMotion();
+  const entrance = cinematic || reducedMotion ? undefined : fadeUp;
   const currentText = heroText[language];
   const stats = [
     { icon: ChefHat, value: "20+", label: currentText.yearsLabel },
@@ -56,13 +58,14 @@ function Hero({ language }) {
 
       <div className="relative z-20 flex min-h-screen items-start px-6 pt-25 sm:px-10 sm:pt-40 lg:items-center lg:px-16 lg:pt-24 xl:px-20 2xl:px-24">
         <motion.div
-          variants={staggerContainer}
-          initial="hidden"
+          variants={cinematic || reducedMotion ? undefined : staggerContainer}
+          initial={cinematic || reducedMotion ? false : "hidden"}
           animate="visible"
           className="mb-96 max-w-[360px] sm:max-w-[430px] lg:max-w-[620px] xl:max-w-[660px] xl:translate-y-4 2xl:translate-y-6"
         >
           <motion.div
-            variants={fadeUp}
+            variants={entrance}
+            data-intro-copy
             className="mt-5 lg:mt-20 mb-10 flex items-start gap-3 font-poppins font-medium uppercase leading-6 tracking-[0.12em] text-primary text-[15px] xl:mb-9"
           >
             <Star size={16} className="mt-1 fill-primary text-primary" />
@@ -74,11 +77,11 @@ function Hero({ language }) {
           </motion.div>
 
           <motion.h1
-            variants={fadeUp}
+            variants={entrance}
             className="font-playfair text-[46px] font-medium leading-[0.55] text-foreground sm:text-6xl lg:text-[92px] xl:text-[95px] 2xl:text-[98px]"
           >
-            {currentText.titleTop}{" "}
-            <span className="inline-flex items-center text-primary">
+            <span data-intro-copy className="inline-block">{currentText.titleTop}</span>{" "}
+            <span data-intro-brand className="hero-signature inline-flex items-center text-primary">
               {currentText.titleHighlight}
               <motion.svg
                 viewBox="0 0 240 190"
@@ -87,28 +90,32 @@ function Hero({ language }) {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <motion.path
+                  data-intro-heart
                   d="M36 132 C68 166, 125 165, 165 134 C194 111, 221 55, 184 27 C150 1, 112 34, 120 91 C107 49, 61 35, 48 70 C35 107, 92 132, 165 134 C175 134, 182 142, 172 147"
                   stroke="currentColor"
                   strokeWidth="6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1.4, delay: 0.55, ease: easeOut }}
+                  initial={cinematic || reducedMotion ? false : { pathLength: 0, opacity: 0 }}
+                  animate={cinematic ? undefined : { pathLength: 1, opacity: 1 }}
+                  transition={{ duration: reducedMotion ? 0 : 1.4, delay: reducedMotion ? 0 : 0.55, ease: easeOut }}
                 />
               </motion.svg>
             </span>
           </motion.h1>
 
           <motion.p
-            variants={fadeUp}
+            variants={entrance}
+            data-intro-copy
             className="max-w-xl font-poppins text-xs text-pretty leading-7 text-foreground/80 sm:text-base lg:text-[15px] lg:leading-8 xl:max-w-[500px] xl:text-[17px] xl:leading-9"
           >
             {currentText.description}
           </motion.p>
 
           <motion.div
-            variants={fadeUp}
+            variants={entrance}
+            data-intro-copy
+            data-intro-actions
             className="mt-8 flex flex-col gap-3 sm:w-fit md:w-fit lg:mt-9 lg:flex-row xl:mt-10 xl:gap-5"
           >
             <motion.a
@@ -135,7 +142,8 @@ function Hero({ language }) {
           </motion.div>
 
           <motion.div
-            variants={fadeUp}
+            variants={entrance}
+            data-intro-copy
             className="mt-10 hidden max-w-4xl items-center font-poppins text-primary lg:flex"
           >
             {stats.map(({ icon: Icon, value, label }, index) => (
