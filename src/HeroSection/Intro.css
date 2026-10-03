@@ -3,6 +3,10 @@
   transform-origin: 0 0;
 }
 
+/* Keep each animated text layer stable above WebGL across intro replays.
+   Flattening these layers at completion can retain clipped glyphs in Chrome. */
+.hero-signature, [data-intro-copy] { will-change: transform; }
+
 .hero-poster {
   position: absolute;
   right: 0;
@@ -24,6 +28,8 @@
 .hero-poster--tablet { height: 180%; max-width: none; }
 
 .hero-poster--loaded { opacity: 0; transition: opacity 450ms ease; }
+/* A replacement scene must not briefly reveal the differently cropped poster. */
+.hero-unicorn[data-artwork-state="loading"] .hero-poster { opacity: 0; }
 .hero-live-scene { position: relative; opacity: 0; }
 .hero-live-scene--ready { opacity: 1; transition: opacity 450ms ease; }
 .hero-scene-mount { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -119,6 +125,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-signature, [data-intro-copy] { will-change: auto; }
   .intro-chrome { display: none; }
   .hero-unicorn { animation: none; }
   .hero-poster, .hero-live-scene { transition: none; }

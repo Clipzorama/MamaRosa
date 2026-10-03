@@ -26,24 +26,55 @@ function Effect() {
   }, []);
 
   return (
-    <div className="hero-unicorn" aria-hidden="true">
-      <HeroArtwork key={`${device}-${reducedMotion}`} device={device} reducedMotion={reducedMotion} />
-    </div>
+    <HeroArtwork key={`${device}-${reducedMotion}`} device={device} reducedMotion={reducedMotion} />
   );
 }
 
 function HeroArtwork({ device, reducedMotion }) {
   const [loaded, setLoaded] = useState(false);
+  const [settled, setSettled] = useState(false);
+  const [posterReady, setPosterReady] = useState(false);
   const sceneRef = useRef(null);
+  const posterRef = useRef(null);
+  const staticArtwork = device === "mobile" || reducedMotion;
   useEffect(() => {
-    if (device === "mobile" || reducedMotion) return undefined;
-    return mountUnicornScene(sceneRef.current, sceneProfiles[device], setLoaded);
-  }, [device, reducedMotion]);
+    if (staticArtwork) return undefined;
+    let disposed = false;
+    let deadline;
+    const stop = mountUnicornScene(sceneRef.current, sceneProfiles[device], (ready) => {
+      if (disposed) return;
+      setLoaded(ready);
+      if (ready) {
+        clearTimeout(deadline);
+        setSettled(true);
+      }
+    });
+    // Commit to a static fallback on a slow/failed connection. Do not replace
+    // it with a differently cropped live scene after the page is revealed.
+    deadline = setTimeout(() => {
+      disposed = true;
+      stop();
+      setSettled(true);
+    }, 6000);
+    return () => { disposed = true; clearTimeout(deadline); stop(); };
+  }, [device, staticArtwork]);
+
+  useEffect(() => {
+    let disposed = false;
+    const image = posterRef.current;
+    const finish = () => { if (!disposed) setPosterReady(true); };
+    image.decode().then(finish, finish);
+    // A failed or hung poster must not hold the page closed either.
+    const deadline = setTimeout(finish, 6000);
+    return () => { disposed = true; clearTimeout(deadline); };
+  }, []);
 
   return (
-    <>
+    <div className="hero-unicorn" aria-hidden="true"
+      data-artwork-state={loaded ? "ready" : (staticArtwork || settled) && posterReady ? "fallback" : "loading"}>
       {/* The existing phone artwork also gives the network scene a local poster. */}
       <img
+        ref={posterRef}
         src={phoner}
         alt=""
         fetchPriority="high"
@@ -54,7 +85,7 @@ function HeroArtwork({ device, reducedMotion }) {
         <div ref={sceneRef} className={`hero-live-scene${loaded ? " hero-live-scene--ready" : ""}`} />
       )}
 
-    </>
+    </div>
   );
 }
 

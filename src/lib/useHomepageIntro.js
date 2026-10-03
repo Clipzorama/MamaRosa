@@ -1,5 +1,6 @@
 import { useLayoutEffect } from "react";
 import gsap from "gsap";
+import { waitForHero } from "./heroReadiness";
 
 export function shouldPlayIntro() {
   if (typeof window === "undefined") return false;
@@ -13,7 +14,7 @@ export function useHomepageIntro(siteRef, active, onComplete) {
     const select = gsap.utils.selector(site);
     const brand = select("[data-intro-brand]")[0];
     const hero = select(".hero-section")[0];
-    const media = select(".hero-unicorn")[0];
+    let media = select(".hero-unicorn")[0];
     const heart = select("[data-intro-heart]")[0];
     const copy = select("[data-intro-copy]");
     const nav = select(".editorial-nav")[0];
@@ -25,9 +26,14 @@ export function useHomepageIntro(siteRef, active, onComplete) {
     let fontDeadline;
     let safetyDeadline;
     let context;
+    let timeline;
+    let artworkReady = false;
+    let started = false;
+    const readiness = new AbortController();
+    const atHome = shouldPlayIntro();
     const homeLinkHadFocus = document.activeElement?.closest?.('a[href="#home"]');
     const previousScrollRestoration = history.scrollRestoration;
-    history.scrollRestoration = "manual";
+    if (atHome) history.scrollRestoration = "manual";
     const inertTargets = [nav, ...select("[data-intro-actions]")].filter(Boolean);
     const previousInert = inertTargets.map((element) => element.inert);
     const restoreInteraction = () => {
@@ -41,6 +47,7 @@ export function useHomepageIntro(siteRef, active, onComplete) {
       cancelAnimationFrame(frame);
       clearTimeout(fontDeadline);
       clearTimeout(safetyDeadline);
+      readiness.abort();
       // Revert all owned styles before removing the initial-state CSS gate.
       context?.revert();
       site.removeAttribute("data-intro");
@@ -51,12 +58,14 @@ export function useHomepageIntro(siteRef, active, onComplete) {
 
     // Hidden navigation/CTAs should never receive focus during the entrance.
     inertTargets.forEach((element) => { element.inert = true; });
-    window.scrollTo({ top: 0, behavior: "instant" });
+    if (atHome) window.scrollTo({ top: 0, behavior: "instant" });
     // A script/animation failure must never leave an invisible, inert homepage.
-    safetyDeadline = window.setTimeout(finish, 3400);
+    safetyDeadline = window.setTimeout(finish, 10000);
 
     const start = (simple = false) => {
       if (disposed || finished) return;
+      started = true;
+      media = select(".hero-unicorn")[0];
       if (motionPreference.matches || !shouldPlayIntro() || !brand || !hero || !media || !heart || !nav || !chrome) {
         finish();
         return;
@@ -91,12 +100,14 @@ export function useHomepageIntro(siteRef, active, onComplete) {
           const length = heart.getTotalLength();
           gsap.set(heart, { strokeDasharray: length, strokeDashoffset: length });
 
-          gsap.timeline({ onComplete: finish, defaults: { ease: "power3.inOut" } })
+          timeline = gsap.timeline({ onComplete: finish, defaults: { ease: "power3.inOut" } });
+          timeline
             .to(brand, { clipPath: "inset(-15% -5% -15% -5%)", duration: 0.75, ease: "power3.out" }, 0.08)
             .fromTo(".intro-chrome__note, .intro-chrome__invitation", { opacity: 0, y: 8 },
               { opacity: 1, y: 0, duration: 0.55, stagger: 0.12 }, 0.12)
             .to(heart, { strokeDashoffset: 0, duration: 0.95, ease: "power2.out" }, 0.38)
-            .to(media, { opacity: 1, duration: 0.5 }, phone ? 0.65 : 0.95)
+            .addPause(0.9, () => { if (artworkReady) timeline.play(); })
+            .to(media, { opacity: 1, duration: 0.5 }, 0.95)
             .to(".intro-chrome__note, .intro-chrome__invitation, .intro-chrome__place",
               { opacity: 0, y: -10, duration: 0.4 }, 1.02)
             .to(brand, { x: 0, y: 0, scale: 1, duration: 1.3 }, 1.05)
@@ -107,17 +118,19 @@ export function useHomepageIntro(siteRef, active, onComplete) {
       } catch { finish(); }
     };
 
-    // Give the existing display font a small, bounded opportunity to settle.
-    // The intro never waits for the network-dependent WebGL scene.
+    // Show the large title while artwork loads, then continue into the hero.
+    const artwork = waitForHero(site, readiness.signal).then(() => {
+      if (disposed || finished) return;
+      artworkReady = true;
+      if (timeline?.paused()) timeline.play();
+    });
     frame = requestAnimationFrame(() => {
-      if (motionPreference.matches) { finish(); return; }
       Promise.race([
         document.fonts.load('500 98px "Playfair Display"', "Mamarosa")
           .then(() => document.fonts.ready).then(() => true).catch(() => false),
-        new Promise((resolve) => { fontDeadline = window.setTimeout(() => resolve(false), 350); }),
-      ]).then((fontsReady) => {
-        // Slow fonts receive a brief entrance without moving typography that
-        // could change dimensions. Scene loading never delays either version.
+        new Promise((resolve) => { fontDeadline = window.setTimeout(() => resolve(false), 1500); }),
+      ]).then(async (fontsReady) => {
+        if (!fontsReady || motionPreference.matches || !atHome) await artwork;
         if (disposed || finished) return;
         if (fontsReady) frame = requestAnimationFrame(() => start());
         else frame = requestAnimationFrame(() => start(true));
@@ -125,19 +138,20 @@ export function useHomepageIntro(siteRef, active, onComplete) {
     });
 
     // Keep the viewport stable without hiding the scrollbar or changing layout.
-    const preventScroll = (event) => { if (!finished) event.preventDefault(); };
+    const preventScroll = (event) => { if (!finished && atHome) event.preventDefault(); };
     const onKey = (event) => {
       if (["Escape", "Tab", "ArrowDown", "PageDown", "End", " "].includes(event.key)) finish();
     };
-    const onVisibility = () => { if (document.hidden) finish(); };
+    const onVisibility = () => { if (document.hidden && started) finish(); };
     const onPageShow = (event) => { if (event.persisted) finish(); };
-    const onMotionChange = () => { if (motionPreference.matches) finish(); };
+    const onMotionChange = () => { if (motionPreference.matches && started) finish(); };
     const onHashChange = () => { if (!shouldPlayIntro()) finish(); };
-    const onScroll = () => { if (window.scrollY > 1) finish(); };
+    const onScroll = () => { if (atHome && started && window.scrollY > 1) finish(); };
+    const onResize = () => { if (started) finish(); };
     window.addEventListener("wheel", preventScroll, { passive: false });
     window.addEventListener("touchmove", preventScroll, { passive: false });
     window.addEventListener("keydown", onKey);
-    window.addEventListener("resize", finish);
+    window.addEventListener("resize", onResize);
     window.addEventListener("hashchange", onHashChange);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("pageshow", onPageShow);
@@ -149,12 +163,13 @@ export function useHomepageIntro(siteRef, active, onComplete) {
       cancelAnimationFrame(frame);
       clearTimeout(fontDeadline);
       clearTimeout(safetyDeadline);
+      readiness.abort();
       context?.revert();
       restoreInteraction();
       window.removeEventListener("wheel", preventScroll);
       window.removeEventListener("touchmove", preventScroll);
       window.removeEventListener("keydown", onKey);
-      window.removeEventListener("resize", finish);
+      window.removeEventListener("resize", onResize);
       window.removeEventListener("hashchange", onHashChange);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pageshow", onPageShow);

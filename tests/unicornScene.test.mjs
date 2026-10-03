@@ -1,12 +1,13 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { isSceneReady, mountUnicornScene } from "../src/lib/unicornScene.js";
+import { isSceneReady, isSceneSized, mountUnicornScene } from "../src/lib/unicornScene.js";
 
 function readyScene() {
   const canvas = new EventTarget();
   Object.assign(canvas, { width: 100, height: 100 });
   return {
-    initialized: true, destroyed: false, local: { preloadedImages: {} }, layers: [],
+    initialized: true, destroyed: false, canvasWidth: 100, canvasHeight: 100,
+    local: { preloadedImages: {} }, layers: [],
     curtain: { canvas, gl: { isContextLost: () => false }, planes: [{ userData: { isReady: true } }] },
     renderFrame() {}, refresh() {},
     destroy() { this.destroyed = true; },
@@ -31,10 +32,15 @@ test("readiness waits for textures and drawable planes, including failed image d
 function environment(t) {
   t.mock.timers.enable({ apis: ["setTimeout"] });
   const hosts = [];
+  const observers = [];
   const globals = {
-    document: { createElement: () => ({ remove() { this.removed = true; }, getBoundingClientRect: () => ({ bottom: 100 }) }) },
+    document: { createElement: () => ({
+      clientWidth: 100, clientHeight: 100,
+      remove() { this.removed = true; },
+      getBoundingClientRect() { return { width: this.clientWidth, height: this.clientHeight, bottom: 100 }; },
+    }) },
     requestAnimationFrame: (fn) => setTimeout(fn, 16), cancelAnimationFrame: clearTimeout,
-    ResizeObserver: class { observe() {} disconnect() {} },
+    ResizeObserver: class { constructor(callback) { observers.push(callback); } observe() {} disconnect() {} },
     IntersectionObserver: class { observe() {} disconnect() {} },
   };
   for (const [key, value] of Object.entries(globals)) {
@@ -42,7 +48,7 @@ function environment(t) {
     Object.defineProperty(globalThis, key, { configurable: true, value });
     t.after(() => original ? Object.defineProperty(globalThis, key, original) : delete globalThis[key]);
   }
-  return { hosts, container: { appendChild: (host) => hosts.push(host) } };
+  return { hosts, observers, container: { appendChild: (host) => hosts.push(host) } };
 }
 const flush = async () => { for (let n = 0; n < 8; n++) await Promise.resolve(); };
 
@@ -106,6 +112,7 @@ test("ready scene waits for paint; context loss restores fallback and cleanup ca
   });
   await flush();
   assert.deepEqual(notifications, []);
+  t.mock.timers.tick(0);
   t.mock.timers.tick(16);
   t.mock.timers.tick(16);
   assert.deepEqual(notifications, [true]);
@@ -116,4 +123,52 @@ test("ready scene waits for paint; context loss restores fallback and cleanup ca
   t.mock.timers.tick(20000);
   await flush();
   assert.equal(loads, 1);
+});
+
+test("scene dimensions must match the host before the first reveal", async (t) => {
+  const { container, hosts } = environment(t);
+  const scene = readyScene();
+  scene.canvasWidth = 50;
+  const notifications = [];
+  const stop = mountUnicornScene(container, {}, (ready) => notifications.push(ready), {
+    loadSDK: async () => ({ addScene: async () => scene }),
+  });
+  await flush();
+  t.mock.timers.tick(0);
+  t.mock.timers.tick(100);
+  assert.equal(isSceneSized(scene, hosts[0]), false);
+  assert.deepEqual(notifications, []);
+  scene.canvasWidth = 100;
+  t.mock.timers.tick(60);
+  t.mock.timers.tick(16);
+  t.mock.timers.tick(16);
+  assert.deepEqual(notifications, [true]);
+  stop();
+});
+
+test("initial observer notification is ignored; real resize does not flash the poster", async (t) => {
+  const { container, hosts, observers } = environment(t);
+  const scene = readyScene();
+  let refreshes = 0;
+  scene.refresh = () => { refreshes++; scene.canvasWidth = hosts[0].clientWidth; };
+  const notifications = [];
+  const stop = mountUnicornScene(container, {}, (ready) => notifications.push(ready), {
+    loadSDK: async () => ({ addScene: async () => scene }),
+  });
+  await flush();
+  t.mock.timers.tick(0);
+  t.mock.timers.tick(16);
+  t.mock.timers.tick(16);
+  observers[0]();
+  t.mock.timers.tick(200);
+  assert.equal(refreshes, 1);
+  hosts[0].clientWidth = 200;
+  observers[0]();
+  t.mock.timers.tick(16);
+  t.mock.timers.tick(120);
+  t.mock.timers.tick(16);
+  t.mock.timers.tick(16);
+  assert.equal(refreshes, 2);
+  assert.ok(notifications.every(Boolean), "routine resize must never restore the phone poster");
+  stop();
 });

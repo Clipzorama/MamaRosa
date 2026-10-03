@@ -12,7 +12,8 @@ const Footer = lazy(() => import("./components/Footer"));
 
 function App() {
   const [language, setLanguage] = useState("nl");
-  const [introActive, setIntroActive] = useState(shouldPlayIntro);
+  // Gate the initial hero reveal on artwork readiness.
+  const [introActive, setIntroActive] = useState(true);
   const siteRef = useRef(null);
   const introBusy = useRef(introActive);
   const completeIntro = useCallback(() => {

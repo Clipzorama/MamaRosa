@@ -44,6 +44,13 @@ export function isSceneReady(scene) {
   return curtain.planes.length > 0 && curtain.planes.every((plane) => plane.userData?.isReady);
 }
 
+export function isSceneSized(scene, host) {
+  const bounds = host.getBoundingClientRect();
+  return bounds.width > 0 && bounds.height > 0 &&
+    Math.abs(scene.canvasWidth - bounds.width) < 1 &&
+    Math.abs(scene.canvasHeight - bounds.height) < 1;
+}
+
 // Each attempt owns a distinct element. Late addScene resolutions can therefore
 // be destroyed without removing a newer scene's canvas (including StrictMode).
 export function mountUnicornScene(container, profile, onReady, {
@@ -100,7 +107,7 @@ export function mountUnicornScene(container, profile, onReady, {
     const check = () => {
       if (stopped || disposed) return;
       try {
-        if (!isSceneReady(scene)) {
+        if (!isSceneReady(scene) || !isSceneSized(scene, host)) {
           poll = setTimeout(check, 60);
           return;
         }
@@ -109,7 +116,7 @@ export function mountUnicornScene(container, profile, onReady, {
         frame = requestAnimationFrame(() => {
           frame = requestAnimationFrame(() => {
             if (stopped || disposed) return;
-            if (!isSceneReady(scene)) { check(); return; }
+            if (!isSceneReady(scene) || !isSceneSized(scene, host)) { check(); return; }
             clearTimeout(deadline);
             onReady(true);
           });
@@ -128,7 +135,8 @@ export function mountUnicornScene(container, profile, onReady, {
       canvas?.addEventListener("webglcontextlost", fail);
       const redraw = (delay = 0) => {
         if (stopped || disposed) return;
-        onReady(false);
+        // Keep the last image during routine resizes/re-entry. Switching back
+        // to the differently cropped phone poster creates a visible size jump.
         clearTimeout(redrawTimer);
         clearTimeout(poll);
         cancelAnimationFrame(frame);
@@ -144,11 +152,18 @@ export function mountUnicornScene(container, profile, onReady, {
           } catch { fail(); }
         }, delay);
       };
+      let width = host.clientWidth;
+      let height = host.clientHeight;
       observer = new ResizeObserver(() => {
+        if (host.clientWidth === width && host.clientHeight === height) return;
+        width = host.clientWidth;
+        height = host.clientHeight;
         cancelAnimationFrame(resizeFrame);
         resizeFrame = requestAnimationFrame(() => {
           if (stopped || disposed) return;
-          if (host.clientWidth && host.clientHeight) redraw();
+          // Run after the SDK's own 80ms resize debounce, which clears static
+          // targets. Refreshing before that debounce produces an empty frame.
+          if (host.clientWidth && host.clientHeight) redraw(120);
         });
       });
       observer.observe(host);
@@ -161,7 +176,8 @@ export function mountUnicornScene(container, profile, onReady, {
         wasVisible = entry.isIntersecting;
       });
       visibility.observe(host);
-      check();
+      // Synchronize dimensions/planes before the very first readiness signal.
+      redraw();
     }).catch(fail);
   };
 
