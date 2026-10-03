@@ -154,7 +154,9 @@ export default function Menu({ language }) {
     const observer = new ResizeObserver(onLayout);
     observer.observe(menu);
     document.fonts.ready.then(onLayout);
-    window.addEventListener("resize", onLayout);
+    // Observe real menu size changes only. Mobile browser chrome also emits
+    // window resize while scrolling; forwarding those events would force the
+    // story to unpin/re-pin and bypass ScrollTrigger's ignoreMobileResize.
     window.addEventListener("hashchange", onHashChange);
     window.addEventListener("pointerdown", releaseInitialHash, { passive: true });
     window.addEventListener("wheel", releaseInitialHash, { passive: true });
@@ -167,7 +169,6 @@ export default function Menu({ language }) {
       observer.disconnect();
       cancelAnimationFrame(layoutFrame);
       cancelAnimationFrame(hashFrame);
-      window.removeEventListener("resize", onLayout);
       window.removeEventListener("hashchange", onHashChange);
       window.removeEventListener("pointerdown", releaseInitialHash);
       window.removeEventListener("wheel", releaseInitialHash);

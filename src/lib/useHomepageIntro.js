@@ -139,6 +139,9 @@ export function useHomepageIntro(siteRef, active, onComplete) {
 
     // Keep the viewport stable without hiding the scrollbar or changing layout.
     const preventScroll = (event) => { if (!finished && atHome) event.preventDefault(); };
+    // A phone swipe takes over from the entrance immediately. Never cancel
+    // touchmove: doing so swallows the gesture and interrupts native scrolling.
+    const onTouchMove = () => { if (atHome) finish(); };
     const onKey = (event) => {
       if (["Escape", "Tab", "ArrowDown", "PageDown", "End", " "].includes(event.key)) finish();
     };
@@ -149,7 +152,7 @@ export function useHomepageIntro(siteRef, active, onComplete) {
     const onScroll = () => { if (atHome && started && window.scrollY > 1) finish(); };
     const onResize = () => { if (started) finish(); };
     window.addEventListener("wheel", preventScroll, { passive: false });
-    window.addEventListener("touchmove", preventScroll, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
     window.addEventListener("keydown", onKey);
     window.addEventListener("resize", onResize);
     window.addEventListener("hashchange", onHashChange);
@@ -167,7 +170,7 @@ export function useHomepageIntro(siteRef, active, onComplete) {
       context?.revert();
       restoreInteraction();
       window.removeEventListener("wheel", preventScroll);
-      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("resize", onResize);
       window.removeEventListener("hashchange", onHashChange);

@@ -137,6 +137,7 @@ export default function FoodJourney({ language }) {
         window.addEventListener("load", refresh);
         window.addEventListener("wheel", cancelInitialAnchor, { passive: true });
         window.addEventListener("pointerdown", cancelInitialAnchor, { passive: true });
+        window.addEventListener("touchstart", cancelInitialAnchor, { passive: true });
         window.addEventListener("keydown", cancelInitialAnchor);
         window.addEventListener("scroll", alignInitialAnchor, { passive: true });
         document.fonts?.ready.then(refresh);
@@ -152,6 +153,7 @@ export default function FoodJourney({ language }) {
           window.removeEventListener("load", refresh);
           window.removeEventListener("wheel", cancelInitialAnchor);
           window.removeEventListener("pointerdown", cancelInitialAnchor);
+          window.removeEventListener("touchstart", cancelInitialAnchor);
           window.removeEventListener("keydown", cancelInitialAnchor);
           window.removeEventListener("scroll", alignInitialAnchor);
           delete journey.dataset.animated;
