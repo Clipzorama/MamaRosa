@@ -28,3 +28,4 @@ src/assets/menuidea.png
 .vercel
 .env*.local
 .env
+/playform
