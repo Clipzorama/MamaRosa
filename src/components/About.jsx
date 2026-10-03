@@ -105,6 +105,7 @@ export default function About({ language }) {
   return (
     <section
       id="about"
+      tabIndex={-1}
       className="relative overflow-hidden bg-background px-6 pt-36 pb-24 text-foreground sm:px-8 md:px-10 lg:px-12 xl:px-16"
       >
 
@@ -251,4 +252,3 @@ export default function About({ language }) {
     </section>
   );
 }
-
